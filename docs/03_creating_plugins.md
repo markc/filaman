@@ -17,8 +17,8 @@ cd /path/to/filaman
 # Create new plugin using hydro
 hydro new MyAwesomePlugin
 
-# Move to packages directory
-mv my-awesome-plugin packages/
+# Move to plugins directory
+mv my-awesome-plugin plugins/
 
 # Update dependencies and register
 composer update
@@ -40,10 +40,10 @@ When prompted, provide:
 - Package description
 - Namespace (will be auto-generated)
 
-### Step 2: Move to Packages Directory
+### Step 2: Move to Plugins Directory
 
 ```bash
-mv blog-plugin packages/
+mv blog-plugin plugins/
 ```
 
 ### Step 3: Update Plugin Configuration
@@ -88,7 +88,7 @@ Add to main `composer.json`:
     "repositories": [
         {
             "type": "path",
-            "url": "packages/blog-plugin"
+            "url": "plugins/blog-plugin"
         }
     ]
 }
@@ -149,7 +149,7 @@ class BlogPlugin implements Plugin
 ### Step 6: Create Plugin Structure
 
 ```bash
-cd packages/blog-plugin/src
+cd plugins/blog-plugin/src
 mkdir -p Filament/{Resources,Pages,Widgets}
 mkdir -p Models
 mkdir -p Http/Controllers
@@ -262,7 +262,7 @@ class Post extends Model
 
 ### Migrations
 
-Create migrations in `packages/blog-plugin/database/migrations/`:
+Create migrations in `plugins/blog-plugin/database/migrations/`:
 
 ```php
 <?php
@@ -321,7 +321,7 @@ class BlogPluginServiceProvider extends PackageServiceProvider
 
 ```bash
 # From plugin directory
-cd packages/blog-plugin
+cd plugins/blog-plugin
 
 # Run tests
 vendor/bin/pest
@@ -335,7 +335,7 @@ vendor/bin/phpstan analyse
 
 ### 2. Testing Your Plugin
 
-Create tests in `packages/blog-plugin/tests/`:
+Create tests in `plugins/blog-plugin/tests/`:
 
 ```php
 <?php

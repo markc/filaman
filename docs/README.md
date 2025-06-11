@@ -20,7 +20,7 @@ FilaMan (Filament Manager) is a Laravel 12 application built with Filament 4 bet
    - Panel builder setup completed with `php artisan filament:install --panels`
 
 2. **Plugin Architecture Setup**
-   - Created `packages/` directory for housing plugins
+   - Created `plugins/` directory for housing plugins
    - Installed `awcodes/hydro` globally for plugin scaffolding
    - Generated first plugin: `AdminPanelPlugin`
 

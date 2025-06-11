@@ -55,14 +55,14 @@ export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 ## Step 4: Create Plugin Structure
 
 ```bash
-# Create packages directory
-mkdir packages
+# Create plugins directory
+mkdir plugins
 
 # Create your first plugin
 hydro new AdminPanelPlugin
 
-# Move to packages directory
-mv admin-panel-plugin packages/
+# Move to plugins directory
+mv admin-panel-plugin plugins/
 ```
 
 ## Step 5: Configure Plugin
@@ -99,7 +99,7 @@ Add local repository and require the plugin:
     "repositories": [
         {
             "type": "path",
-            "url": "packages/admin-panel-plugin"
+            "url": "plugins/admin-panel-plugin"
         }
     ]
 }
@@ -152,7 +152,7 @@ class AdminPanelPlugin implements Plugin
 ### Create Directory Structure
 
 ```bash
-mkdir -p packages/admin-panel-plugin/src/Filament/{Resources,Pages,Widgets}
+mkdir -p plugins/admin-panel-plugin/src/Filament/{Resources,Pages,Widgets}
 ```
 
 ## Step 7: Register Plugin

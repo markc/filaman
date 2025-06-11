@@ -98,10 +98,28 @@ This is a Laravel 12 application with Filament 4 beta and a **fully plugin-based
 
 ### Key Architectural Patterns:
 - **Minimal Core**: The core application contains only essential Laravel files
-- **Plugin Discovery**: Plugins are auto-discovered from the packages/ directory
+- **Plugin Discovery**: Plugins are auto-discovered from the plugins/ directory
 - **Optional Admin Panel**: The admin panel itself is a plugin and can be disabled
 - **Service Provider Pattern**: Each plugin has its own service provider
 - **Modular Features**: All functionality is added via plugins, not core modifications
+
+### Plugin Naming Convention
+
+All plugins MUST follow this strict naming convention:
+
+- **Directory name**: `plugins/{name}` (all lowercase, no suffixes)
+- **Package name**: `filaman/{name}` (all lowercase, no suffixes)  
+- **Namespace**: `FilaMan\{Name}` (PascalCase, no suffixes)
+- **Main class**: `{Name}Plugin` (PascalCase with Plugin suffix)
+- **Service provider**: `{Name}ServiceProvider` (PascalCase)
+
+**Examples:**
+- Admin plugin: `plugins/admin/`, `filaman/admin`, `FilaMan\Admin`, `AdminPlugin`, `AdminServiceProvider`
+- Pages plugin: `plugins/pages/`, `filaman/pages`, `FilaMan\Pages`, `PagesPlugin`, `PagesServiceProvider`  
+- Blog plugin: `plugins/blog/`, `filaman/blog`, `FilaMan\Blog`, `BlogPlugin`, `BlogServiceProvider`
+
+This convention eliminates redundancy since plugins are already in the `plugins/` directory.
+
 ## Plugin System Usage
 
 ### Installation Modes

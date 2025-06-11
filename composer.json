@@ -10,8 +10,8 @@
         "filament/filament": "^4.0",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
-        "filaman/admin-panel-plugin": "*",
-        "filaman/pages-plugin": "*"
+        "filaman/admin": "dev-main",
+        "filaman/pages": "dev-main"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -79,12 +79,12 @@
     "repositories": [
         {
             "type": "path",
-            "url": "packages/admin-panel-plugin",
+            "url": "plugins/admin",
             "options": {"symlink": true}
         },
         {
             "type": "path", 
-            "url": "packages/pages-plugin",
+            "url": "plugins/pages",
             "options": {"symlink": true}
         }
     ]
