@@ -86,17 +86,14 @@ abstract class DuskTestCase extends BaseTestCase
     {
         $options = (new FirefoxOptions());
         
-        $arguments = [
-            '--width=1920',
-            '--height=1080',
-        ];
+        $arguments = [];
 
         if (! $this->hasHeadlessDisabled()) {
             $arguments[] = '--headless';
         }
 
-        foreach ($arguments as $argument) {
-            $options->addArguments($argument);
+        if (!empty($arguments)) {
+            $options->addArguments($arguments);
         }
 
         return RemoteWebDriver::create(
