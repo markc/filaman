@@ -13,11 +13,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $this->call([
+            AdminUserSeeder::class,
         ]);
+
+        // Ensure there's always an admin user for local development
+        if (app()->environment('local')) {
+            User::firstOrCreate(
+                ['email' => 'admin@local.dev'],
+                [
+                    'name' => 'Local Admin',
+                    'role' => 'admin',
+                    'email_verified_at' => now(),
+                    'password' => bcrypt('password'),
+                ]
+            );
+        }
     }
 }
