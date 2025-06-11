@@ -9,7 +9,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     # Only run on merge commits to main or version tags
-    if: (github.ref == 'refs/heads/main' && (contains(github.event.head_commit.message, 'Merge pull request') || contains(github.event.head_commit.message, '#'))) || startsWith(github.ref, 'refs/tags/v')
+    if: (github.ref == 'refs/heads/main' && (contains(github.event.head_commit.message, 'Merge pull request') || contains(github.event.head_commit.message, 'Merge branch') || contains(github.event.head_commit.message, '#'))) || startsWith(github.ref, 'refs/tags/v')
 
     steps:
     - uses: actions/checkout@v4
