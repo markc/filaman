@@ -1,0 +1,69 @@
+{
+    "name": "filaman/pages-plugin",
+    "description": "A Filament v4.x plugin for managing unauthenticated static pages from Markdown files with front matter.",
+    "type": "laravel-plugin",
+    "keywords": [
+        "laravel",
+        "filament",
+        "filament-v4",
+        "plugin",
+        "pages", 
+        "markdown",
+        "static-pages",
+        "filaman"
+    ],
+    "homepage": "https://github.com/markc/filaman",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mark Constable",
+            "email": "markc@renta.net",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "filament/filament": "^4.0",
+        "spatie/laravel-package-tools": "^1.15.0",
+        "spatie/laravel-markdown": "^2.0",
+        "spatie/yaml-front-matter": "^2.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.0",
+        "nunomaduro/collision": "^8.0",
+        "orchestra/testbench": "^9.0",
+        "pestphp/pest": "^3.0",
+        "pestphp/pest-plugin-laravel": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "FilaMan\\PagesPlugin\\": "src/",
+            "FilaMan\\PagesPlugin\\Database\\Factories\\": "database/factories/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "FilaMan\\PagesPlugin\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "FilaMan\\PagesPlugin\\PagesPluginServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
