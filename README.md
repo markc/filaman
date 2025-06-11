@@ -4,13 +4,13 @@
 [![Deploy](https://github.com/markc/filaman/actions/workflows/deploy.yml/badge.svg)](https://github.com/markc/filaman/actions/workflows/deploy.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A modern file and asset management system built with Laravel 12, Filament 4 beta, and Claude Code.
+A modern Filament v4.x plugin manager built with Laravel 12, Filament 4 beta, and Claude Code.
 
 ## ✨ Features
 
 ### 🔧 Core Functionality
-- **File Management**: Upload, organize, and manage files with advanced metadata
-- **Asset Processing**: Automatic image optimization and thumbnail generation
+- **Filament v4.x Plugin Manager**: Discover, install, and manage Filament plugins with advanced metadata
+- **Plugin Processing**: Automatic plugin validation and dependency resolution
 - **Search & Filter**: Powerful search capabilities with advanced filtering options
 - **User Management**: Role-based access control with 2FA support
 - **Admin Dashboard**: Comprehensive admin panel powered by Filament 4 beta
@@ -147,7 +147,7 @@ filaman/
 │   ├── migrations/             # Database migrations
 │   └── seeders/               # Database seeders
 ├── docs/                      # Project documentation
-├── packages/                  # Custom plugins
+├── packages/                  # Filament plugin packages
 ├── resources/                 # Frontend assets and views
 ├── scripts/                   # Development scripts
 └── tests/                     # Pest test suite
