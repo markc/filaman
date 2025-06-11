@@ -1,7 +1,7 @@
 # Filaman
 
-[![Tests](https://github.com/markc/filaman/actions/workflows/ci.yml/badge.svg)](https://github.com/markc/filaman/actions/workflows/ci.yml)
-[![Code Style](https://github.com/markc/filaman/actions/workflows/ci.yml/badge.svg)](https://github.com/markc/filaman/actions/workflows/ci.yml)
+[![CI](https://github.com/markc/filaman/actions/workflows/ci.yml/badge.svg)](https://github.com/markc/filaman/actions/workflows/ci.yml)
+[![Deploy](https://github.com/markc/filaman/actions/workflows/deploy.yml/badge.svg)](https://github.com/markc/filaman/actions/workflows/deploy.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A modern file and asset management system built with Laravel 12, Filament 4 beta, and Claude Code.

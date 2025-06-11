@@ -2,7 +2,6 @@
 
 namespace App\Providers\Filament;
 
-use FilaMan\AdminPanelPlugin\AdminPanelPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -34,7 +33,6 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->emailVerification()
             ->profile()
-            ->plugin(AdminPanelPlugin::make())
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
