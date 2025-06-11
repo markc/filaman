@@ -65,6 +65,7 @@ expect()->extend('toBeDisabledPlugin', function () {
 function createTestPluginData(array $overrides = []): array
 {
     $faker = \Faker\Factory::create();
+
     return array_merge([
         'name' => $faker->unique()->slug(2),
         'display_name' => $faker->words(2, true),
@@ -86,12 +87,12 @@ function createTestComposerData(string $name, array $overrides = []): array
         'type' => 'laravel-plugin',
         'version' => '1.0.0',
         'authors' => [
-            ['name' => 'Test Author', 'email' => 'test@example.com']
+            ['name' => 'Test Author', 'email' => 'test@example.com'],
         ],
         'require' => ['php' => '^8.3'],
         'autoload' => [
-            'psr-4' => ["FilaMan\\".str($name)->studly()."\\" => 'src/']
-        ]
+            'psr-4' => ['FilaMan\\'.str($name)->studly().'\\' => 'src/'],
+        ],
     ], $overrides);
 }
 
@@ -99,7 +100,7 @@ function assertPluginManagerHasPlugin(string $pluginName): void
 {
     $pluginManager = app(\FilaMan\Admin\Services\PluginManager::class);
     $availablePlugins = $pluginManager->getAvailablePlugins();
-    
+
     expect($availablePlugins)->toHaveKey($pluginName);
 }
 
@@ -107,7 +108,7 @@ function assertPluginManagerDoesNotHavePlugin(string $pluginName): void
 {
     $pluginManager = app(\FilaMan\Admin\Services\PluginManager::class);
     $availablePlugins = $pluginManager->getAvailablePlugins();
-    
+
     expect($availablePlugins)->not()->toHaveKey($pluginName);
 }
 
@@ -115,17 +116,17 @@ function getPluginFromManager(string $pluginName): ?array
 {
     $pluginManager = app(\FilaMan\Admin\Services\PluginManager::class);
     $availablePlugins = $pluginManager->getAvailablePlugins();
-    
+
     return $availablePlugins[$pluginName] ?? null;
 }
 
 function assertPluginHasComposerFile(string $pluginName): void
 {
     $pluginPath = base_path("plugins/{$pluginName}");
-    $composerFile = $pluginPath . '/composer.json';
-    
+    $composerFile = $pluginPath.'/composer.json';
+
     expect($composerFile)->toBeFile();
-    
+
     $composerData = json_decode(file_get_contents($composerFile), true);
     expect($composerData)->toBeArray()
         ->and($composerData)->toHaveKey('name')
@@ -157,10 +158,10 @@ function createTemporaryTestPlugin(string $name, array $composerOverrides = []):
 {
     $pluginPath = base_path("plugins/{$name}");
     \Illuminate\Support\Facades\File::ensureDirectoryExists($pluginPath);
-    
+
     $composerData = createTestComposerData($name, $composerOverrides);
-    file_put_contents($pluginPath . '/composer.json', json_encode($composerData, JSON_PRETTY_PRINT));
-    
+    file_put_contents($pluginPath.'/composer.json', json_encode($composerData, JSON_PRETTY_PRINT));
+
     return $pluginPath;
 }
 
@@ -176,14 +177,14 @@ function mockPluginManager(): \FilaMan\Admin\Services\PluginManager
 {
     $mock = Mockery::mock(\FilaMan\Admin\Services\PluginManager::class);
     app()->instance(\FilaMan\Admin\Services\PluginManager::class, $mock);
-    
+
     return $mock;
 }
 
 function assertFileContainsPlugin(string $filePath, string $pluginName): void
 {
     expect($filePath)->toBeFile();
-    
+
     $contents = file_get_contents($filePath);
     expect($contents)->toContain($pluginName);
 }
@@ -201,7 +202,7 @@ function measurePluginOperationTime(callable $operation): float
     $start = microtime(true);
     $operation();
     $end = microtime(true);
-    
+
     return ($end - $start) * 1000; // Return in milliseconds
 }
 

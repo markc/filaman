@@ -2,7 +2,6 @@
 
 namespace FilaMan\Pages;
 
-use Illuminate\Support\Facades\File;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -33,7 +32,7 @@ class PagesServiceProvider extends PackageServiceProvider
     {
         // Load helper functions
         require_once __DIR__.'/helpers.php';
-        
+
         // Register the view namespace manually to ensure it's available
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'filaman-pages');
     }

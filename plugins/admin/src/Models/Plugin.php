@@ -2,7 +2,6 @@
 
 namespace FilaMan\Admin\Models;
 
-use FilaMan\Admin\Database\Factories\PluginFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

@@ -27,7 +27,7 @@ describe('AdminPlugin', function () {
 
     test('can be created via make method', function () {
         $plugin = AdminPlugin::make();
-        
+
         expect($plugin)->toBeInstanceOf(AdminPlugin::class);
         expect($plugin->getId())->toBe('admin-panel');
     });
@@ -35,7 +35,7 @@ describe('AdminPlugin', function () {
     test('make method returns singleton instance', function () {
         $plugin1 = AdminPlugin::make();
         $plugin2 = AdminPlugin::make();
-        
+
         expect($plugin1)->toBe($plugin2);
     });
 
@@ -51,15 +51,15 @@ describe('AdminPlugin', function () {
         ])->andReturnSelf();
 
         $this->plugin->register($this->panel);
-        
+
         expect(true)->toBeTrue(); // Test passes if no exceptions thrown
     });
 
     test('boot method registers view namespace', function () {
         $this->panel->shouldIgnoreMissing();
-        
+
         $this->plugin->boot($this->panel);
-        
+
         // Verify view namespace is registered
         expect(view()->exists('filaman-admin::test'))->toBeFalse(); // Non-existent view should be false
         // The namespace should be registered but we can't easily test exact registration
@@ -67,12 +67,12 @@ describe('AdminPlugin', function () {
 
     test('boot method registers plugin manager singleton', function () {
         $this->panel->shouldIgnoreMissing();
-        
+
         $this->plugin->boot($this->panel);
-        
+
         $pluginManager = app(PluginManager::class);
         expect($pluginManager)->toBeInstanceOf(PluginManager::class);
-        
+
         // Should be singleton
         $pluginManager2 = app(PluginManager::class);
         expect($pluginManager)->toBe($pluginManager2);
@@ -81,91 +81,91 @@ describe('AdminPlugin', function () {
     test('delegates available plugins to plugin manager', function () {
         $mockPluginManager = mockPluginManager();
         $expectedPlugins = ['plugin1' => [], 'plugin2' => []];
-        
+
         $mockPluginManager->shouldReceive('getAvailablePlugins')
             ->once()
             ->andReturn($expectedPlugins);
-        
+
         $result = $this->plugin->getAvailablePlugins();
-        
+
         expect($result)->toBe($expectedPlugins);
     });
 
     test('delegates installed plugins to plugin manager', function () {
         $mockPluginManager = mockPluginManager();
         $expectedPlugins = ['plugin1' => ['installed' => true]];
-        
+
         $mockPluginManager->shouldReceive('getInstalledPlugins')
             ->once()
             ->andReturn($expectedPlugins);
-        
+
         $result = $this->plugin->getInstalledPlugins();
-        
+
         expect($result)->toBe($expectedPlugins);
     });
 
     test('delegates install plugin to plugin manager', function () {
         $mockPluginManager = mockPluginManager();
-        
+
         $mockPluginManager->shouldReceive('installPlugin')
             ->once()
             ->with('test-plugin')
             ->andReturn(true);
-        
+
         $result = $this->plugin->installPlugin('test-plugin');
-        
+
         expect($result)->toBeTrue();
     });
 
     test('delegates uninstall plugin to plugin manager', function () {
         $mockPluginManager = mockPluginManager();
-        
+
         $mockPluginManager->shouldReceive('uninstallPlugin')
             ->once()
             ->with('test-plugin')
             ->andReturn(true);
-        
+
         $result = $this->plugin->uninstallPlugin('test-plugin');
-        
+
         expect($result)->toBeTrue();
     });
 
     test('delegates enable plugin to plugin manager', function () {
         $mockPluginManager = mockPluginManager();
-        
+
         $mockPluginManager->shouldReceive('enablePlugin')
             ->once()
             ->with('test-plugin')
             ->andReturn(true);
-        
+
         $result = $this->plugin->enablePlugin('test-plugin');
-        
+
         expect($result)->toBeTrue();
     });
 
     test('delegates disable plugin to plugin manager', function () {
         $mockPluginManager = mockPluginManager();
-        
+
         $mockPluginManager->shouldReceive('disablePlugin')
             ->once()
             ->with('test-plugin')
             ->andReturn(true);
-        
+
         $result = $this->plugin->disablePlugin('test-plugin');
-        
+
         expect($result)->toBeTrue();
     });
 
     test('handles plugin manager failures gracefully', function () {
         $mockPluginManager = mockPluginManager();
-        
+
         $mockPluginManager->shouldReceive('installPlugin')
             ->once()
             ->with('invalid-plugin')
             ->andReturn(false);
-        
+
         $result = $this->plugin->installPlugin('invalid-plugin');
-        
+
         expect($result)->toBeFalse();
     });
 

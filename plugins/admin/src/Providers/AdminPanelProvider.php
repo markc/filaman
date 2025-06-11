@@ -72,5 +72,4 @@ class AdminPanelProvider extends PanelProvider
                     : [Authenticate::class] // Require auth in production and testing
             );
     }
-
 }

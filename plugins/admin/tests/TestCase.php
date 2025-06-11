@@ -58,26 +58,26 @@ abstract class TestCase extends \Tests\TestCase
     protected function createTestPluginStructure(): void
     {
         $testPluginsPath = $this->getTestPluginsPath();
-        
+
         // Create a test plugin structure
-        $testPluginPath = $testPluginsPath . '/test-plugin';
+        $testPluginPath = $testPluginsPath.'/test-plugin';
         File::ensureDirectoryExists($testPluginPath);
-        
+
         $composerContent = [
             'name' => 'filaman/test-plugin',
             'description' => 'Test plugin for unit testing',
             'type' => 'laravel-plugin',
             'version' => '1.0.0',
             'authors' => [
-                ['name' => 'Test Author', 'email' => 'test@example.com']
+                ['name' => 'Test Author', 'email' => 'test@example.com'],
             ],
             'require' => ['php' => '^8.3'],
             'autoload' => [
-                'psr-4' => ['FilaMan\\TestPlugin\\' => 'src/']
-            ]
+                'psr-4' => ['FilaMan\\TestPlugin\\' => 'src/'],
+            ],
         ];
-        
-        File::put($testPluginPath . '/composer.json', json_encode($composerContent, JSON_PRETTY_PRINT));
+
+        File::put($testPluginPath.'/composer.json', json_encode($composerContent, JSON_PRETTY_PRINT));
     }
 
     protected function tearDown(): void
@@ -88,7 +88,7 @@ abstract class TestCase extends \Tests\TestCase
 
     protected function cleanupTestFiles(): void
     {
-        $testPluginPath = $this->getTestPluginsPath() . '/test-plugin';
+        $testPluginPath = $this->getTestPluginsPath().'/test-plugin';
         if (File::exists($testPluginPath)) {
             File::deleteDirectory($testPluginPath);
         }
@@ -154,6 +154,7 @@ abstract class TestCase extends \Tests\TestCase
     {
         $admin = $this->createAdminUser();
         $this->actingAs($admin);
+
         return $admin;
     }
 
@@ -162,10 +163,10 @@ abstract class TestCase extends \Tests\TestCase
      */
     protected function assertPluginExists(string $pluginName): void
     {
-        $pluginPath = $this->getTestPluginsPath() . '/' . $pluginName;
+        $pluginPath = $this->getTestPluginsPath().'/'.$pluginName;
         $this->assertTrue(File::exists($pluginPath), "Plugin directory {$pluginName} should exist");
-        
-        $composerFile = $pluginPath . '/composer.json';
+
+        $composerFile = $pluginPath.'/composer.json';
         $this->assertTrue(File::exists($composerFile), "Plugin {$pluginName} should have composer.json");
     }
 
@@ -174,7 +175,7 @@ abstract class TestCase extends \Tests\TestCase
      */
     protected function assertPluginNotExists(string $pluginName): void
     {
-        $pluginPath = $this->getTestPluginsPath() . '/' . $pluginName;
+        $pluginPath = $this->getTestPluginsPath().'/'.$pluginName;
         $this->assertFalse(File::exists($pluginPath), "Plugin directory {$pluginName} should not exist");
     }
 
@@ -215,9 +216,9 @@ abstract class TestCase extends \Tests\TestCase
      */
     protected function createTemporaryPlugin(string $name, array $composerData = []): string
     {
-        $pluginPath = $this->getTestPluginsPath() . '/' . $name;
+        $pluginPath = $this->getTestPluginsPath().'/'.$name;
         File::ensureDirectoryExists($pluginPath);
-        
+
         $defaultComposerData = [
             'name' => "filaman/{$name}",
             'description' => "Test plugin {$name}",
@@ -226,10 +227,10 @@ abstract class TestCase extends \Tests\TestCase
             'authors' => [['name' => 'Test', 'email' => 'test@example.com']],
             'require' => ['php' => '^8.3'],
         ];
-        
+
         $composerData = array_merge($defaultComposerData, $composerData);
-        File::put($pluginPath . '/composer.json', json_encode($composerData, JSON_PRETTY_PRINT));
-        
+        File::put($pluginPath.'/composer.json', json_encode($composerData, JSON_PRETTY_PRINT));
+
         return $pluginPath;
     }
 
@@ -238,7 +239,7 @@ abstract class TestCase extends \Tests\TestCase
      */
     protected function removeTemporaryPlugin(string $name): void
     {
-        $pluginPath = $this->getTestPluginsPath() . '/' . $name;
+        $pluginPath = $this->getTestPluginsPath().'/'.$name;
         if (File::exists($pluginPath)) {
             File::deleteDirectory($pluginPath);
         }
