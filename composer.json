@@ -1,9 +1,9 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
-    "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "name": "markc/filaman",
+    "type": "project", 
+    "description": "FilaMan - A modern Filament v4.x plugin manager for Laravel applications.",
+    "keywords": ["laravel", "filament", "plugin-manager", "filament-v4"],
     "license": "MIT",
     "require": {
         "php": "^8.3",
