@@ -9,20 +9,20 @@ describe('User Model', function () {
         expect($user->name)->toBeString();
         expect($user->email)->toBeString();
         expect($user->password)->toBeString();
-        expect($user->email_verified_at)->toBeNull()
-            ->or->toBeInstanceOf(DateTime::class);
+        expect($user->email_verified_at)->toBeInstanceOf(DateTime::class);
+        expect($user->role)->toBeString();
     });
 
     test('user has correct fillable attributes', function () {
         $user = new User;
 
-        expect($user->getFillable())->toContain('name', 'email', 'password');
+        expect($user->getFillable())->toContain('name', 'email', 'password', 'role');
     });
 
     test('user has correct hidden attributes', function () {
         $user = new User;
 
-        expect($user->getHidden())->toContain('password', 'remember_token');
+        expect($user->getHidden())->toContain('password', 'remember_token', 'two_factor_secret', 'two_factor_recovery_codes');
     });
 
     test('user has correct casts', function () {
@@ -40,12 +40,12 @@ describe('User Model', function () {
         expect($user->role)->toBe('admin');
     });
 
-    test('user can be created with 2fa enabled', function () {
+    test('user can be created with 2fa secret', function () {
         $user = User::factory()->create([
-            'two_factor_enabled' => true,
+            'two_factor_secret' => 'test-secret',
         ]);
 
-        expect($user->two_factor_enabled)->toBe(true);
+        expect($user->two_factor_secret)->toBe('test-secret');
     });
 
     test('user email must be unique', function () {

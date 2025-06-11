@@ -16,8 +16,16 @@ describe('Database Structure', function () {
         expect(Schema::hasColumn('users', 'role'))->toBeTrue();
     });
 
-    test('users table has two_factor_enabled column', function () {
-        expect(Schema::hasColumn('users', 'two_factor_enabled'))->toBeTrue();
+    test('users table has two_factor_secret column', function () {
+        expect(Schema::hasColumn('users', 'two_factor_secret'))->toBeTrue();
+    });
+
+    test('users table has two_factor_recovery_codes column', function () {
+        expect(Schema::hasColumn('users', 'two_factor_recovery_codes'))->toBeTrue();
+    });
+
+    test('users table has two_factor_confirmed_at column', function () {
+        expect(Schema::hasColumn('users', 'two_factor_confirmed_at'))->toBeTrue();
     });
 
     test('cache table exists', function () {
