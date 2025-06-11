@@ -1,0 +1,44 @@
+name: Code Style
+
+on:
+  push:
+    branches: [ main ]
+
+# Prevent duplicate runs when PR is merged
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  code-style:
+    runs-on: ubuntu-latest
+    name: Check Code Style
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+        extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, gd, iconv, json, mbstring, pdo, mailparse
+        ini-values: post_max_size=256M, upload_max_filesize=256M, max_execution_time=300
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+
+    - name: Check mailparse extension
+      run: php -m | grep mailparse || echo "mailparse extension not found, using --ignore-platform-req"
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --ignore-platform-req=ext-mailparse
+
+    - name: Run Laravel Pint
+      run: vendor/bin/pint --test
