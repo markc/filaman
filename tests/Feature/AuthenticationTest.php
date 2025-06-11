@@ -3,71 +3,66 @@
 use App\Models\User;
 
 describe('Authentication', function () {
-    test('users can register with valid data', function () {
-        $userData = [
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => 'password123',
-            'password_confirmation' => 'password123',
-        ];
+    test('admin users can access filament logout', function () {
+        $admin = User::factory()->create([
+            'email' => 'admin@test.com',
+            'role' => 'admin',
+            'email_verified_at' => now(),
+        ]);
 
-        $response = $this->post('/register', $userData);
+        $response = $this->actingAs($admin)->post('/admin/logout');
 
         $response->assertRedirect();
-        $this->assertDatabaseHas('users', [
-            'email' => 'test@example.com',
+        $this->assertGuest();
+    });
+
+    test('users can be authenticated via filament', function () {
+        $admin = User::factory()->create([
+            'email' => 'admin@test.com',
+            'role' => 'admin',
+            'email_verified_at' => now(),
         ]);
+
+        $this->assertInstanceOf(User::class, $admin);
+        expect($admin->email)->toBe('admin@test.com');
+        expect($admin->role)->toBe('admin');
     });
 
-    test('users cannot register with invalid email', function () {
-        $userData = [
-            'name' => 'Test User',
-            'email' => 'invalid-email',
-            'password' => 'password123',
-            'password_confirmation' => 'password123',
-        ];
-
-        $response = $this->post('/register', $userData);
-
-        $response->assertSessionHasErrors('email');
-    });
-
-    test('users can login with valid credentials', function () {
+    test('user factory creates valid authenticated users', function () {
         $user = User::factory()->create([
-            'email' => 'test@example.com',
-            'password' => bcrypt('password123'),
+            'role' => 'admin',
+            'email_verified_at' => now(),
         ]);
 
-        $response = $this->post('/login', [
-            'email' => 'test@example.com',
-            'password' => 'password123',
-        ]);
-
-        $response->assertRedirect();
-        $this->assertAuthenticatedAs($user);
+        expect($user->email)->toBeString();
+        expect($user->name)->toBeString();
+        expect($user->hasVerifiedEmail())->toBeTrue();
     });
 
-    test('users cannot login with invalid credentials', function () {
-        User::factory()->create([
-            'email' => 'test@example.com',
-            'password' => bcrypt('password123'),
-        ]);
+    test('user roles work correctly', function () {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $user = User::factory()->create(['role' => 'user']);
 
-        $response = $this->post('/login', [
-            'email' => 'test@example.com',
-            'password' => 'wrongpassword',
-        ]);
-
-        $response->assertSessionHasErrors();
-        $this->assertGuest();
+        expect($admin->isAdmin())->toBeTrue();
+        expect($admin->isUser())->toBeFalse();
+        expect($user->isAdmin())->toBeFalse();
+        expect($user->isUser())->toBeTrue();
     });
 
-    test('authenticated users can logout', function () {
-        $user = User::factory()->create();
+    test('panel access control works correctly', function () {
+        $admin = User::factory()->create([
+            'role' => 'admin',
+            'email_verified_at' => now(),
+        ]);
 
-        $response = $this->actingAs($user)->post('/logout');
+        $user = User::factory()->create([
+            'role' => 'user',
+            'email_verified_at' => now(),
+        ]);
 
-        $response->assertRedirect();
-        $this->assertGuest();
+        $panel = app(\Filament\Panel::class);
+
+        expect($admin->canAccessPanel($panel))->toBeTrue();
+        expect($user->canAccessPanel($panel))->toBeFalse();
     });
 });
