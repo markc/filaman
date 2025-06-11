@@ -43,13 +43,13 @@ I need a step-by-step guide focusing on the initial setup, assuming I have a fre
                 ```
             *   Then, within your `my-filament-core` project directory, generate the plugin:
                 ```bash
-                hydro new AdminPanelPlugin --path=packages/admin-panel-plugin
+                hydro new AdminPanelPlugin --path=plugins/admin-panel-plugin
                 ```
-                This command will create a new directory (e.g., `packages/admin-panel-plugin`) for your plugin. You might choose to put your plugins in a `packages` directory or `modules` for better organization.
+                This command will create a new directory (e.g., `plugins/admin-panel-plugin`) for your plugin. You might choose to put your plugins in a `plugins` directory or `modules` for better organization.
                 *   Follow any prompts from `hydro` to configure the plugin's details (e.g., vendor name, package name).
                 *   This will create a new Laravel package structure that's ready for Filament plugin development.
         *   **Alternative (Manual/Skeleton):** If not using `hydro`, you would manually create a new Laravel package and follow the Filament plugin development guide. The skeleton is a good starting point. [12]
-        *   Within your new `AdminPanelPlugin` package (e.g., `packages/admin-panel-plugin`), locate its service provider (e.g., `src/AdminPanelPluginServiceProvider.php`). This is where you'll register the Filament panel.
+        *   Within your new `AdminPanelPlugin` package (e.g., `plugins/admin-panel-plugin`), locate its service provider (e.g., `src/AdminPanelPluginServiceProvider.php`). This is where you'll register the Filament panel.
 
 **Phase 3: Integrating the Admin Panel Plugin**
 
@@ -126,13 +126,13 @@ I need a step-by-step guide focusing on the initial setup, assuming I have a fre
                     "App\\": "app/",
                     "Database\\Factories\\": "database/factories/",
                     "Database\\Seeders\\": "database/seeders/",
-                    "AdminPanelPlugin\\": "packages/admin-panel-plugin/src/" // Add this line
+                    "AdminPanelPlugin\\": "plugins/admin-panel-plugin/src/" // Add this line
                 }
             },
             "repositories": [
                 {
                     "type": "path",
-                    "url": "packages/admin-panel-plugin"
+                    "url": "plugins/admin-panel-plugin"
                 }
             ],
             // ... other configurations
@@ -144,7 +144,7 @@ I need a step-by-step guide focusing on the initial setup, assuming I have a fre
         ```
 
 2.  **Developing the Admin Panel within the Plugin:**
-    *   Inside `packages/admin-panel-plugin/src/AdminPanelPlugin.php` (or similar, depending on your plugin structure), you will define the panel's configuration.
+    *   Inside `plugins/admin-panel-plugin/src/AdminPanelPlugin.php` (or similar, depending on your plugin structure), you will define the panel's configuration.
     *   This is where you'll register any resources, pages, widgets, or custom routes that belong to your *main* admin panel.
     *   **Example `AdminPanelPlugin.php` structure (within your plugin):**
         ```php
@@ -197,7 +197,7 @@ I need a step-by-step guide focusing on the initial setup, assuming I have a fre
             }
         }
         ```
-    *   Now, you'll create the Filament components (Resources, Pages, Widgets) *within your plugin's directory structure*, e.g., `packages/admin-panel-plugin/src/Filament/Resources/UserResource.php`.
+    *   Now, you'll create the Filament components (Resources, Pages, Widgets) *within your plugin's directory structure*, e.g., `plugins/admin-panel-plugin/src/Filament/Resources/UserResource.php`.
     *   For authentication, create a Filament user:
         ```bash
         php artisan make:filament-user
@@ -220,7 +220,7 @@ I need a step-by-step guide focusing on the initial setup, assuming I have a fre
 **Phase 5: Adding More Independent Plugins**
 
 1.  **Repeat Plugin Creation:** For each new piece of functionality (e.g., a Blog module, a CRM module, an E-commerce store), you would repeat the process:
-    *   Use `hydro new MyFeaturePlugin --path=packages/my-feature-plugin` to generate a new plugin skeleton.
+    *   Use `hydro new MyFeaturePlugin --path=plugins/my-feature-plugin` to generate a new plugin skeleton.
     *   Develop the Filament Resources, Pages, Widgets, etc., *within that new plugin's `src/Filament` directory*.
     *   In the main `AdminPanelProvider.php` of your core project (or in a dedicated PanelProvider for other panels), register the new plugin:
         ```php

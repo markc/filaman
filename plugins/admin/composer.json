@@ -1,0 +1,48 @@
+{
+    "name": "filaman/admin",
+    "description": "Admin Panel Plugin for FilaMan - Provides complete plugin management interface",
+    "type": "laravel-plugin",
+    "keywords": ["filament", "laravel", "admin", "plugin-manager", "filaman"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mark Constable",
+            "email": "markc@renta.net"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "filament/filament": "^4.0",
+        "spatie/laravel-package-tools": "^1.15.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.0",
+        "pestphp/pest": "^3.0",
+        "pestphp/pest-plugin-laravel": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "FilaMan\\Admin\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "FilaMan\\Admin\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "FilaMan\\Admin\\AdminServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "beta",
+    "prefer-stable": true
+}

@@ -187,7 +187,7 @@ database/migrations/2024_01_01_000000_create_posts_table.php
 
 3. Run migrations manually:
 ```bash
-php artisan migrate --path=packages/admin-panel-plugin/database/migrations
+php artisan migrate --path=plugins/admin-panel-plugin/database/migrations
 ```
 
 ### Resource Discovery Issues

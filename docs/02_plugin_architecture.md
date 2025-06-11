@@ -60,7 +60,7 @@ Each plugin is responsible for:
 ## Plugin Structure
 
 ```
-packages/
+plugins/
 └── admin-panel-plugin/
     ├── composer.json           # Package dependencies
     ├── src/
