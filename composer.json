@@ -15,13 +15,15 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
+        "laravel/dusk": "^8.3",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.41",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
         "pestphp/pest": "^3.8",
-        "pestphp/pest-plugin-laravel": "^3.2"
+        "pestphp/pest-plugin-laravel": "^3.2",
+        "symfony/panther": "^2.2"
     },
     "autoload": {
         "psr-4": {
@@ -67,6 +69,26 @@
         "test:admin": [
             "@php artisan config:clear --ansi",
             "@php vendor/bin/pest plugins/admin/tests"
+        ],
+        "test:dusk": [
+            "@php artisan config:clear --ansi",
+            "@php artisan dusk"
+        ],
+        "test:dusk:firefox": [
+            "@php artisan config:clear --ansi",
+            "cp .env.dusk.firefox .env.dusk.local",
+            "@php artisan dusk",
+            "rm -f .env.dusk.local"
+        ],
+        "test:screenshots": [
+            "@php artisan config:clear --ansi",
+            "@php artisan dusk tests/Browser/FilamentScreenshotTest.php"
+        ],
+        "test:screenshots:firefox": [
+            "@php artisan config:clear --ansi",
+            "cp .env.dusk.firefox .env.dusk.local",
+            "@php artisan dusk tests/Browser/FilamentScreenshotTest.php",
+            "rm -f .env.dusk.local"
         ]
     },
     "extra": {
