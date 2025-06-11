@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7ab9817be836fb6498eeb085493a60fa",
+    "content-hash": "71296d01c2a80f681b5d41ba0b3f08d7",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -989,98 +989,6 @@
                 }
             ],
             "time": "2025-03-06T22:45:56+00:00"
-        },
-        {
-            "name": "filaman/admin-panel-plugin",
-            "version": "dev-main",
-            "dist": {
-                "type": "path",
-                "url": "packages/admin-panel-plugin",
-                "reference": "97f3599e8057841500859e33747e9e4fe1fa417a"
-            },
-            "require": {
-                "filament/filament": "^4.0",
-                "filament/forms": "^4.0",
-                "filament/tables": "^4.0",
-                "php": "^8.1",
-                "spatie/laravel-package-tools": "^1.15.0"
-            },
-            "require-dev": {
-                "laravel/pint": "^1.0",
-                "nunomaduro/collision": "^7.9",
-                "nunomaduro/larastan": "^2.0.1",
-                "orchestra/testbench": "^8.0",
-                "pestphp/pest": "^2.1",
-                "pestphp/pest-plugin-arch": "^2.0",
-                "pestphp/pest-plugin-laravel": "^2.0",
-                "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan-deprecation-rules": "^1.0",
-                "phpstan/phpstan-phpunit": "^1.0",
-                "spatie/laravel-ray": "^1.26"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "FilaMan\\AdminPanelPlugin\\AdminPanelPluginServiceProvider"
-                    ],
-                    "aliases": {
-                        "AdminPanelPlugin": "FilaMan\\AdminPanelPlugin\\Facades\\AdminPanelPlugin"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "FilaMan\\AdminPanelPlugin\\": "src/",
-                    "FilaMan\\AdminPanelPlugin\\Database\\Factories\\": "database/factories/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "FilaMan\\AdminPanelPlugin\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "post-autoload-dump": [
-                    "@php ./vendor/bin/testbench package:discover --ansi"
-                ],
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "test": [
-                    "vendor/bin/pest"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mark Constable",
-                    "email": "markc@renta.net",
-                    "role": "Developer"
-                }
-            ],
-            "description": "This is my package admin-panel-plugin",
-            "homepage": "https://github.com/filaman/admin-panel-plugin",
-            "keywords": [
-                "admin-panel-plugin",
-                "filaman",
-                "laravel"
-            ],
-            "support": {
-                "issues": "https://github.com/filaman/admin-panel-plugin/issues",
-                "source": "https://github.com/filaman/admin-panel-plugin"
-            },
-            "transport-options": {
-                "relative": true
-            }
         },
         {
             "name": "filament/actions",
@@ -11287,9 +11195,7 @@
     ],
     "aliases": [],
     "minimum-stability": "beta",
-    "stability-flags": {
-        "filaman/admin-panel-plugin": 20
-    },
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
