@@ -59,6 +59,14 @@
         "test": [
             "@php artisan config:clear --ansi",
             "@php artisan test"
+        ],
+        "test:pest": [
+            "@php artisan config:clear --ansi",
+            "@php vendor/bin/pest"
+        ],
+        "test:admin": [
+            "@php artisan config:clear --ansi",
+            "@php vendor/bin/pest plugins/admin/tests"
         ]
     },
     "extra": {

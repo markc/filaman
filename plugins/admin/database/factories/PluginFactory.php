@@ -11,29 +11,17 @@ class PluginFactory extends Factory
 
     public function definition(): array
     {
-        $name = $this->faker->unique()->word().'-plugin';
-
         return [
-            'name' => $name,
-            'display_name' => ucwords(str_replace('-', ' ', $name)),
+            'name' => $this->faker->unique()->slug(2),
+            'display_name' => $this->faker->words(2, true),
             'description' => $this->faker->sentence(),
-            'version' => $this->faker->randomElement(['1.0.0', '1.1.0', '2.0.0', '0.1.0']),
-            'enabled' => $this->faker->boolean(80), // 80% chance of being enabled
+            'version' => $this->faker->randomElement(['1.0.0', '1.1.0', '2.0.0', '0.9.0']),
+            'enabled' => true,
             'settings' => [],
-            'metadata' => [
-                'created' => $this->faker->dateTime()->format('Y-m-d H:i:s'),
-                'downloads' => $this->faker->numberBetween(0, 10000),
-            ],
+            'metadata' => [],
             'author' => $this->faker->name(),
             'url' => $this->faker->url(),
         ];
-    }
-
-    public function enabled(): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'enabled' => true,
-        ]);
     }
 
     public function disabled(): static
@@ -43,10 +31,33 @@ class PluginFactory extends Factory
         ]);
     }
 
+    public function enabled(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'enabled' => true,
+        ]);
+    }
+
     public function withSettings(array $settings): static
     {
         return $this->state(fn (array $attributes) => [
             'settings' => $settings,
+        ]);
+    }
+
+    public function withMetadata(array $metadata): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'metadata' => $metadata,
+        ]);
+    }
+
+    public function core(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'name' => 'admin',
+            'display_name' => 'Admin Panel',
+            'description' => 'Core admin panel plugin',
         ]);
     }
 }

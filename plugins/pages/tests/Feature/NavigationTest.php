@@ -14,7 +14,7 @@ class NavigationTest extends TestCase
         parent::setUp();
 
         // Register the plugin service provider
-        $this->app->register(\FilaMan\Pages\PagesPluginServiceProvider::class);
+        $this->app->register(\FilaMan\Pages\PagesServiceProvider::class);
     }
 
     public function test_navigation_includes_all_published_pages()

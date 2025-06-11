@@ -12,7 +12,7 @@ class Plugin extends Model
 
     protected static function newFactory()
     {
-        return PluginFactory::new();
+        return \FilaMan\Admin\Database\Factories\PluginFactory::new();
     }
 
     protected $fillable = [

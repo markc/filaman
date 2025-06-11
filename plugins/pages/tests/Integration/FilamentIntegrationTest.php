@@ -17,7 +17,7 @@ class FilamentIntegrationTest extends TestCase
         parent::setUp();
 
         // Register the plugin service provider
-        $this->app->register(\FilaMan\Pages\PagesPluginServiceProvider::class);
+        $this->app->register(\FilaMan\Pages\PagesServiceProvider::class);
 
         // Create admin user for testing
         $this->adminUser = User::factory()->create([

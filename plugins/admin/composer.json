@@ -22,7 +22,8 @@
     },
     "autoload": {
         "psr-4": {
-            "FilaMan\\Admin\\": "src/"
+            "FilaMan\\Admin\\": "src/",
+            "FilaMan\\Admin\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {

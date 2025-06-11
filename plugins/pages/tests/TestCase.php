@@ -2,7 +2,7 @@
 
 namespace FilaMan\Pages\Tests;
 
-use FilaMan\Pages\PagesPluginServiceProvider;
+use FilaMan\Pages\PagesServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\File;
 
@@ -41,7 +41,7 @@ abstract class TestCase extends \Tests\TestCase
 
     protected function registerPlugin(): void
     {
-        $this->app->register(PagesPluginServiceProvider::class);
+        $this->app->register(PagesServiceProvider::class);
     }
 
     protected function getTestPagesPath(): string
@@ -148,7 +148,7 @@ MD;
     protected function getPackageProviders($app): array
     {
         return [
-            PagesPluginServiceProvider::class,
+            PagesServiceProvider::class,
         ];
     }
 
