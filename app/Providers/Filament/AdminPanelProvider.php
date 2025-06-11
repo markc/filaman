@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Http\Middleware\LocalAutoLogin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -23,16 +24,23 @@ class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        return $panel
+        $panel = $panel
             ->default()
             ->id('admin')
             ->path('admin')
             ->colors([
                 'primary' => Color::Blue,
             ])
-            ->login()
-            ->emailVerification()
-            ->profile()
+            ->profile();
+
+        // Only require login in non-local environments (but always require in testing)
+        if (! app()->environment('local') || app()->environment('testing')) {
+            $panel = $panel
+                ->login()
+                ->emailVerification();
+        }
+
+        return $panel
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -53,9 +61,12 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                LocalAutoLogin::class, // Auto-login in local environment
             ])
-            ->authMiddleware([
-                Authenticate::class,
-            ]);
+            ->authMiddleware(
+                app()->environment('local') && ! app()->environment('testing')
+                    ? [] // No auth middleware in local (except testing)
+                    : [Authenticate::class] // Require auth in production and testing
+            );
     }
 }

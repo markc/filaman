@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 {
@@ -69,26 +68,21 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
      */
     public function canAccessPanel(Panel $panel): bool
     {
+        // In testing environment, only allow admin users
+        if (App::environment('testing')) {
+            return $this->role === self::ROLE_ADMIN;
+        }
+
         // --- Local Development Bypass ---
         if (App::environment('local')) {
-            // In local environment, if an admin user exists, automatically log them in
-            // This assumes at least one user with role 'admin' exists in your database
-            if (Auth::guest()) { // Only attempt auto-login if not already logged in
-                $adminUser = static::where('role', self::ROLE_ADMIN)->first();
-                if ($adminUser) {
-                    Auth::login($adminUser);
-
-                    return true; // Allow access once logged in
-                }
-            }
-
-            // If no admin user found or already logged in, proceed as normal
-            return Auth::check(); // If already logged in, allow access
+            // In local environment, auto-login is handled by middleware
+            // Just check if user is admin
+            return $this->role === self::ROLE_ADMIN;
         }
 
         // --- Production Authentication & Authorization ---
-        // In production, ensure the user's email is verified and they have a valid role
-        return $this->hasVerifiedEmail() && in_array($this->role, [self::ROLE_USER, self::ROLE_ADMIN]);
+        // In production, ensure the user's email is verified and they are an admin
+        return $this->hasVerifiedEmail() && $this->role === self::ROLE_ADMIN;
     }
 
     /**

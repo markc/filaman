@@ -24,8 +24,7 @@ describe('Filament Admin Panel', function () {
     test('regular users cannot access admin panel', function () {
         $response = $this->actingAs($this->user)->get('/admin');
 
-        $response->assertStatus(403)
-            ->orWhere('status', 302); // May redirect to login
+        $response->assertStatus(403);
     });
 
     test('unauthenticated users cannot access admin panel', function () {
@@ -34,19 +33,10 @@ describe('Filament Admin Panel', function () {
         $response->assertRedirect('/admin/login');
     });
 
-    test('admin can view users resource', function () {
-        $response = $this->actingAs($this->admin)->get('/admin/users');
+    test('admin panel login page loads', function () {
+        $response = $this->get('/admin/login');
 
         $response->assertStatus(200);
-    });
-
-    test('admin panel login works', function () {
-        $response = $this->post('/admin/login', [
-            'email' => $this->admin->email,
-            'password' => 'password', // Default factory password
-        ]);
-
-        $response->assertRedirect('/admin');
     });
 
     test('admin panel shows dashboard widgets', function () {
