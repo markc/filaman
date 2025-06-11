@@ -4,26 +4,27 @@
 [![Deploy](https://github.com/markc/filaman/actions/workflows/deploy.yml/badge.svg)](https://github.com/markc/filaman/actions/workflows/deploy.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A modern Filament v4.x plugin manager built with Laravel 12, Filament 4 beta, and Claude Code.
+A modern Filament v4.x plugin manager built with Laravel 12, Filament 4 beta, and Claude Code. FilaMan features a **fully plugin-based architecture** where even the admin panel is a plugin.
 
 ## ✨ Features
 
 ### 🔧 Core Functionality
-- **Filament v4.x Plugin Manager**: Discover, install, and manage Filament plugins with advanced metadata
-- **Plugin Processing**: Automatic plugin validation and dependency resolution
-- **Search & Filter**: Powerful search capabilities with advanced filtering options
-- **User Management**: Role-based access control with 2FA support
-- **Admin Dashboard**: Comprehensive admin panel powered by Filament 4 beta
+- **Minimal Core**: Bare Laravel installation with plugin support
+- **Plugin-Based Everything**: All features are plugins, including the admin panel
+- **Three Installation Modes**: Bare bones, single plugin, or full admin mode
+- **Plugin Manager**: Discover, install, and manage plugins via UI or CLI
+- **Automatic Discovery**: Scan packages directory for available plugins
 
-### 🎯 User Experience
-- **Modern Interface**: Clean, responsive UI built with Tailwind CSS v4
-- **Plugin Architecture**: Extensible system with custom Filament plugins
-- **Real-time Updates**: Live notifications and status updates
-- **Multi-language Support**: Internationalization ready
+### 🎯 Plugin System
+- **Admin Panel Plugin**: Complete Filament admin interface (optional)
+- **Pages Plugin**: Documentation system demonstrating plugin patterns
+- **Plugin Architecture**: Each plugin is a complete Laravel package
+- **Hot-Swappable**: Enable/disable plugins without uninstalling
+- **Dependency Management**: Automatic dependency resolution
 
 ### 🛠️ Technical Features
 - **Laravel 12**: Latest Laravel framework with modern PHP 8.3+ features
-- **Filament 4 Beta**: Cutting-edge admin panel with unified schema core
+- **Filament 4 Beta**: Cutting-edge admin panel (via plugin)
 - **SQLite Database**: Lightweight, file-based database for easy deployment
 - **Vite Build System**: Fast frontend asset compilation
 - **Pest Testing**: Comprehensive test suite with feature and unit tests
@@ -82,6 +83,37 @@ git cleanup                # Clean up old branches (weekly)
    ```
 
 Visit `http://localhost:8000` for the main application and `http://localhost:8000/admin` for the admin panel.
+
+## 🎛️ Installation Modes
+
+FilaMan supports three different installation modes:
+
+### 1. Bare Bones Mode (No Admin Panel)
+```bash
+# Remove admin panel from composer.json before install
+composer install --no-scripts
+composer remove filaman/admin-panel-plugin
+composer install
+```
+Use this for headless installations or when building custom interfaces.
+
+### 2. Single Plugin Mode
+```bash
+# Install core + specific plugin only
+composer install --no-scripts
+composer remove filaman/admin-panel-plugin
+composer require filaman/pages-plugin
+composer install
+```
+Perfect for focused functionality without full admin overhead.
+
+### 3. Full Admin Mode (Default)
+```bash
+# Standard installation includes everything
+composer install
+php artisan migrate
+```
+Complete plugin management interface with all features.
 
 ## 📚 Documentation
 

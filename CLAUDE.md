@@ -78,29 +78,80 @@ php artisan filament:clear-cached-components
 
 ## Architecture Overview
 
-This is a Laravel 12 application with Filament 4 beta:
+This is a Laravel 12 application with Filament 4 beta and a **fully plugin-based architecture**:
 - **Backend**: Laravel 12 with PHP 8.3+, SQLite database, Eloquent ORM
 - **Frontend**: Vite build tool, Tailwind CSS v4, Blade templating
-- **Admin Panel**: Filament 4 beta with plugin-based architecture
+- **Admin Panel**: Provided by the Admin Panel Plugin (not in core)
 - **Testing**: Pest PHP with SQLite in-memory database
+
+### FilaMan Plugin Architecture:
+1. **Core Application**: Minimal Laravel installation without admin panel
+2. **Admin Panel Plugin**: Provides complete Filament admin interface and plugin management
+3. **Pages Plugin**: Example content management plugin demonstrating best practices
+4. **Plugin-Based Everything**: All features are implemented as plugins, not in core
 
 ### Filament 4 Beta Key Concepts:
 1. **Unified Schema Core**: Filament v4 uses a new `Schema` package that provides consistent UI components across forms, tables, and widgets
 2. **Plugin-Based Architecture**: Each feature should be encapsulated in its own plugin using the `Filament\Contracts\Plugin` interface
-3. **Panel Builder vs Components**: This project uses the full panel builder for admin interfaces
-4. **Resource Organization**: Resources are organized in dedicated namespaces with their own directories
+3. **Panel Builder vs Components**: Admin panel plugin provides the full panel builder
+4. **Resource Organization**: Resources are organized within each plugin's namespace
 
 ### Key Architectural Patterns:
-- Standard Laravel MVC structure
-- Filament plugin system for modular features
-- Service Provider pattern for bootstrapping (AppServiceProvider)
-- Panel Providers for Filament configuration (app/Providers/Filament/)
-- Route-based request handling (routes/web.php)
-- Eloquent models in app/Models/
-- Controllers in app/Http/Controllers/
-- Database migrations in database/migrations/
-- Filament resources in app/Filament/Resources/
-- Filament plugins in separate packages/directories
+- **Minimal Core**: The core application contains only essential Laravel files
+- **Plugin Discovery**: Plugins are auto-discovered from the packages/ directory
+- **Optional Admin Panel**: The admin panel itself is a plugin and can be disabled
+- **Service Provider Pattern**: Each plugin has its own service provider
+- **Modular Features**: All functionality is added via plugins, not core modifications
+## Plugin System Usage
+
+### Installation Modes
+
+FilaMan supports three installation modes:
+
+1. **Bare Bones Mode**: Core Laravel only, no admin panel
+   ```bash
+   # Remove admin panel plugin from composer.json
+   composer remove filaman/admin-panel-plugin
+   ```
+
+2. **Single Plugin Mode**: Core + one specific plugin
+   ```bash
+   # Install only the plugin you need
+   composer require filaman/pages-plugin
+   ```
+
+3. **Full Admin Mode**: Core + Admin Panel + managed plugins
+   ```bash
+   # Default installation includes admin panel
+   composer install
+   ```
+
+### Managing Plugins
+
+With Admin Panel:
+- Navigate to `/admin/plugins`
+- Click "Discover Plugins" to find available plugins
+- Install/uninstall/enable/disable via UI
+
+Without Admin Panel:
+```bash
+# Add plugin repository to composer.json
+composer config repositories.my-plugin path packages/my-plugin
+
+# Install plugin
+composer require filaman/my-plugin:*
+
+# Run plugin migrations
+php artisan migrate --path=packages/my-plugin/database/migrations
+```
+
+### Core Application Structure
+
+The core application is minimal:
+- `app/` - Only essential Laravel files (User model, base controllers)
+- `packages/` - All plugins live here
+- `bootstrap/providers.php` - Admin panel provider is commented out by default
+- No Filament resources or pages in core
 
 ## Filament 4 Plugin Development
 
