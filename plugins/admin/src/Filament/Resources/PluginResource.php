@@ -3,9 +3,11 @@
 namespace FilaMan\Admin\Filament\Resources;
 
 use FilaMan\Admin\Services\PluginManager;
+use Filament\Actions;
 use Filament\Forms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -26,7 +28,7 @@ class PluginResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Plugin Information')
+                Section::make('Plugin Information')
                     ->schema([
                         Forms\Components\TextInput::make('name')
                             ->required()
@@ -60,7 +62,7 @@ class PluginResource extends Resource
                     ])
                     ->columns(2),
 
-                Forms\Components\Section::make('Plugin Settings')
+                Section::make('Plugin Settings')
                     ->schema([
                         Forms\Components\KeyValue::make('settings')
                             ->label('Configuration')
@@ -75,11 +77,11 @@ class PluginResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('display_name')
+                Tables\Columns\TextColumn::make('name')
                     ->label('Plugin')
                     ->searchable()
                     ->sortable()
-                    ->description(fn (Model $record): string => $record->name),
+                    ->formatStateUsing(fn (string $state): string => ucwords(str_replace(['-', '_'], ' ', $state))),
 
                 Tables\Columns\TextColumn::make('description')
                     ->limit(50)
@@ -117,7 +119,7 @@ class PluginResource extends Resource
                     ),
             ])
             ->actions([
-                Tables\Actions\Action::make('toggle')
+                Actions\Action::make('toggle')
                     ->label(fn (Model $record): string => $record->enabled ? 'Disable' : 'Enable')
                     ->icon(fn (Model $record): string => $record->enabled ? 'heroicon-o-x-circle' : 'heroicon-o-check-circle')
                     ->color(fn (Model $record): string => $record->enabled ? 'danger' : 'success')
@@ -144,9 +146,9 @@ class PluginResource extends Resource
                         }
                     }),
 
-                Tables\Actions\EditAction::make(),
+                Actions\EditAction::make(),
 
-                Tables\Actions\Action::make('settings')
+                Actions\Action::make('settings')
                     ->label('Settings')
                     ->icon('heroicon-o-cog-6-tooth')
                     ->color('gray')
@@ -171,7 +173,7 @@ class PluginResource extends Resource
                     }),
             ])
             ->bulkActions([
-                Tables\Actions\BulkAction::make('enable')
+                Actions\BulkAction::make('enable')
                     ->label('Enable Selected')
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
@@ -193,7 +195,7 @@ class PluginResource extends Resource
                             ->send();
                     }),
 
-                Tables\Actions\BulkAction::make('disable')
+                Actions\BulkAction::make('disable')
                     ->label('Disable Selected')
                     ->icon('heroicon-o-x-circle')
                     ->color('danger')

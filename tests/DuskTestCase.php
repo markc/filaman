@@ -9,11 +9,9 @@ use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Illuminate\Support\Collection;
 use Laravel\Dusk\TestCase as BaseTestCase;
 use PHPUnit\Framework\Attributes\BeforeClass;
-use Symfony\Component\Panther\Client;
 
 abstract class DuskTestCase extends BaseTestCase
 {
-
     /**
      * Prepare for Dusk test execution.
      */
@@ -22,7 +20,7 @@ abstract class DuskTestCase extends BaseTestCase
     {
         if (! static::runningInSail()) {
             $browser = env('DUSK_BROWSER', 'chrome');
-            
+
             if ($browser === 'firefox') {
                 // For Firefox, we use GeckoDriver directly
                 static::startGeckoDriver();
@@ -84,15 +82,15 @@ abstract class DuskTestCase extends BaseTestCase
      */
     protected function createFirefoxDriver(): RemoteWebDriver
     {
-        $options = (new FirefoxOptions());
-        
+        $options = (new FirefoxOptions);
+
         $arguments = [];
 
         if (! $this->hasHeadlessDisabled()) {
             $arguments[] = '--headless';
         }
 
-        if (!empty($arguments)) {
+        if (! empty($arguments)) {
             $options->addArguments($arguments);
         }
 
@@ -107,17 +105,17 @@ abstract class DuskTestCase extends BaseTestCase
     /**
      * Take a screenshot with custom name and location.
      */
-    protected function takeScreenshot(string $name = null, string $directory = null): string
+    protected function takeScreenshot(?string $name = null, ?string $directory = null): string
     {
-        $name = $name ?: 'screenshot-' . date('Y-m-d-H-i-s');
+        $name = $name ?: 'screenshot-'.date('Y-m-d-H-i-s');
         $directory = $directory ?: storage_path('app/screenshots');
 
         if (! is_dir($directory)) {
             mkdir($directory, 0755, true);
         }
 
-        $filename = $directory . '/' . $name . '.png';
-        
+        $filename = $directory.'/'.$name.'.png';
+
         // For use within existing browse() calls, just return expected path
         // The screenshot() method should be called directly in the test
         return $filename;
@@ -126,9 +124,9 @@ abstract class DuskTestCase extends BaseTestCase
     /**
      * Take a full page screenshot.
      */
-    protected function takeFullPageScreenshot(string $name = null, string $directory = null): string
+    protected function takeFullPageScreenshot(?string $name = null, ?string $directory = null): string
     {
-        $name = $name ?: 'fullpage-' . date('Y-m-d-H-i-s');
+        $name = $name ?: 'fullpage-'.date('Y-m-d-H-i-s');
         $directory = $directory ?: storage_path('app/screenshots');
 
         if (! is_dir($directory)) {
@@ -139,13 +137,13 @@ abstract class DuskTestCase extends BaseTestCase
             // For full page screenshots, scroll to top and capture
             $browser->script([
                 'window.scrollTo(0, 0);',
-                'document.body.style.height = "auto";'
+                'document.body.style.height = "auto";',
             ]);
-            
+
             $browser->screenshot($name);
         });
 
-        return $directory . '/' . $name . '.png';
+        return $directory.'/'.$name.'.png';
     }
 
     /**
@@ -155,15 +153,15 @@ abstract class DuskTestCase extends BaseTestCase
     {
         // Try to find existing user first to avoid unique constraint errors
         $user = \App\Models\User::where('email', 'admin@test.com')->first();
-        
-        if (!$user) {
+
+        if (! $user) {
             $user = \App\Models\User::factory()->create([
                 'email' => 'admin@test.com',
                 'role' => 'admin',
                 'email_verified_at' => now(),
             ]);
         }
-        
+
         return $user;
     }
 
@@ -173,12 +171,12 @@ abstract class DuskTestCase extends BaseTestCase
     protected function loginAsFilamentAdmin($browser): void
     {
         $user = $this->createFilamentUser();
-        
+
         $browser->visit('/admin/login')
-                ->waitFor('input[name="email"]') // Wait for form to load
-                ->type('email', $user->email)
-                ->type('password', 'password')
-                ->press('Sign in')
-                ->waitForLocation('/admin', 10); // Wait up to 10 seconds
+            ->waitFor('input[name="email"]') // Wait for form to load
+            ->type('email', $user->email)
+            ->type('password', 'password')
+            ->press('Sign in')
+            ->waitForLocation('/admin', 10); // Wait up to 10 seconds
     }
 }

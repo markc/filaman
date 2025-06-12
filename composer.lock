@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a8ed3eeabcb157cdbfb61918fa403bb1",
+    "content-hash": "3712ae78b22740714f93a448afe51e3f",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -996,10 +996,14 @@
             "dist": {
                 "type": "path",
                 "url": "plugins/admin",
-                "reference": "afb2dcc5f43e98423fb10c7839b80c2fe3168e7f"
+                "reference": "4e573490a708f9c2fe4952a3640565abe20b6598"
             },
             "require": {
+                "filament/actions": "^4.0@beta",
                 "filament/filament": "^4.0",
+                "filament/forms": "^4.0@beta",
+                "filament/notifications": "^4.0@beta",
+                "filament/tables": "^4.0@beta",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.15.0"
             },
@@ -1055,10 +1059,12 @@
             "dist": {
                 "type": "path",
                 "url": "plugins/pages",
-                "reference": "2909cab422943474eefd32309469f6ec74dd7271"
+                "reference": "1597db26b79b755ea63a4b31d8fdf3a2a37485d7"
             },
             "require": {
                 "filament/filament": "^4.0",
+                "graham-campbell/markdown": "^16.0",
+                "league/commonmark": "^2.7",
                 "php": "^8.3",
                 "spatie/laravel-markdown": "^2.0",
                 "spatie/laravel-package-tools": "^1.15.0",
@@ -1639,6 +1645,86 @@
                 }
             ],
             "time": "2023-10-12T05:21:21+00:00"
+        },
+        {
+            "name": "graham-campbell/markdown",
+            "version": "v16.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GrahamCampbell/Laravel-Markdown.git",
+                "reference": "040221ff01f167fbe53a047b0e9ac15cbb3b6d79"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Markdown/zipball/040221ff01f167fbe53a047b0e9ac15cbb3b6d79",
+                "reference": "040221ff01f167fbe53a047b0e9ac15cbb3b6d79",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^10.44 || ^11.0 || ^12.0",
+                "illuminate/filesystem": "^10.44 || ^11.0 || ^12.0",
+                "illuminate/support": "^10.44 || ^11.0 || ^12.0",
+                "illuminate/view": "^10.44 || ^11.0 || ^12.0",
+                "league/commonmark": "^2.6.1",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "graham-campbell/analyzer": "^5.0",
+                "graham-campbell/testbench": "^6.2",
+                "mockery/mockery": "^1.6.6",
+                "phpunit/phpunit": "^10.5.45 || ^11.5.10"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "GrahamCampbell\\Markdown\\MarkdownServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GrahamCampbell\\Markdown\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Graham Campbell",
+                    "email": "hello@gjcampbell.co.uk",
+                    "homepage": "https://github.com/GrahamCampbell"
+                }
+            ],
+            "description": "Markdown Is A CommonMark Wrapper For Laravel",
+            "keywords": [
+                "Graham Campbell",
+                "GrahamCampbell",
+                "Laravel Markdown",
+                "Laravel-Markdown",
+                "common mark",
+                "commonmark",
+                "framework",
+                "laravel",
+                "markdown"
+            ],
+            "support": {
+                "issues": "https://github.com/GrahamCampbell/Laravel-Markdown/issues",
+                "source": "https://github.com/GrahamCampbell/Laravel-Markdown/tree/v16.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/GrahamCampbell",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/graham-campbell/markdown",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2025-03-02T23:41:30+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -12227,7 +12313,11 @@
     "minimum-stability": "beta",
     "stability-flags": {
         "filaman/admin": 20,
-        "filaman/pages": 20
+        "filaman/pages": 20,
+        "filament/actions": 10,
+        "filament/forms": 10,
+        "filament/notifications": 10,
+        "filament/tables": 10
     },
     "prefer-stable": false,
     "prefer-lowest": false,
