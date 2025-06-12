@@ -54,10 +54,14 @@ class NavigationService
             return $a['order'] <=> $b['order'];
         });
 
-        // Add "Pages" navigation item first (gets special Filament treatment) - this will be the Home page
+        // Add "Pages" navigation item first (gets special Filament treatment) - points to pages index
         $navigationItems = [];
+        $navigationItems[] = NavigationItem::make('Pages')
+            ->url(url('/pages'))
+            ->icon('heroicon-o-document-duplicate')
+            ->isActiveWhen(fn () => request()->is('pages') && ! request()->route()->parameter('slug'));
 
-        // Find the home page and add it first as "Pages"
+        // Find the home page and add it second as "Home" with home icon
         $homePageIndex = null;
         foreach ($pages as $index => $page) {
             if ($page['slug'] === 'home') {
@@ -68,7 +72,7 @@ class NavigationService
 
         if ($homePageIndex !== null) {
             $homePage = $pages[$homePageIndex];
-            $navigationItems[] = NavigationItem::make('Pages')
+            $navigationItems[] = NavigationItem::make('Home')
                 ->url(url('/pages/'.$homePage['slug']))
                 ->icon('heroicon-o-home')
                 ->isActiveWhen(fn () => request()->is('pages/'.$homePage['slug']) ||
@@ -77,12 +81,6 @@ class NavigationService
             // Remove home page from the regular pages array
             unset($pages[$homePageIndex]);
         }
-
-        // Add "Home" navigation item for the pages index
-        $navigationItems[] = NavigationItem::make('Home')
-            ->url(url('/pages'))
-            ->icon('heroicon-o-document-duplicate')
-            ->isActiveWhen(fn () => request()->is('pages') && ! request()->route()->parameter('slug'));
 
         // Convert remaining pages to NavigationItem objects
         foreach ($pages as $page) {
