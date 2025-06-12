@@ -2,6 +2,7 @@
 
 namespace FilaMan\Pages\Providers;
 
+use FilaMan\Pages\Services\NavigationService;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Panel;
@@ -18,6 +19,8 @@ class PagesPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        $navigationService = app(NavigationService::class);
+
         return $panel
             ->id('pages')
             ->path('pages') // Public pages interface using full Filament layout
@@ -31,6 +34,7 @@ class PagesPanelProvider extends PanelProvider
                 \FilaMan\Pages\Filament\Pages\PagesList::class,
                 \FilaMan\Pages\Filament\Pages\DynamicPage::class,
             ])
+            ->navigationItems($navigationService->getNavigationItems())
             ->widgets([
                 // No widgets needed for pages panel
             ])

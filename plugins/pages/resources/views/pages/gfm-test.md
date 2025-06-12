@@ -1,15 +1,16 @@
 ---
-title: GitHub Flavored Markdown Test
+title: GFM Test
 slug: gfm-test
 description: A comprehensive test page showcasing all GitHub Flavored Markdown features supported by FilaMan's markdown rendering system.
 category: Documentation
-order: 1
+order: 5
 published: true
 author: FilaMan Team
 date: 2025-06-12
 tags: markdown, gfm, test, documentation
 seo_title: GFM Test - Markdown Rendering Showcase
 seo_description: Test page demonstrating GitHub Flavored Markdown features including tables, code blocks, task lists, and more in FilaMan.
+icon: heroicon-o-beaker
 ---
 
 # GitHub Flavored Markdown Test

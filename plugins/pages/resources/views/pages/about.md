@@ -1,5 +1,5 @@
 ---
-title: About FilaMan
+title: About
 slug: about
 description: Learn about FilaMan's mission to revolutionize Filament v4.x plugin management and our commitment to developer experience.
 order: 2
@@ -7,6 +7,7 @@ published: true
 author: FilaMan Team
 date: 2025-06-11
 tags: about, mission, architecture, team
+icon: heroicon-o-information-circle
 ---
 
 # About FilaMan

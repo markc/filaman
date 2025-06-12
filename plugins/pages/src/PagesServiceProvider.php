@@ -30,6 +30,7 @@ class PagesServiceProvider extends PackageServiceProvider
         // Bind services
         $this->app->singleton(\FilaMan\Pages\Services\PageCacheService::class);
         $this->app->singleton(\FilaMan\Pages\Services\GfmMarkdownRenderer::class);
+        $this->app->singleton(\FilaMan\Pages\Services\NavigationService::class);
     }
 
     public function packageBooted(): void
