@@ -10,6 +10,16 @@ date: 2025-11-06
 
 FilaMan (Filament Manager) is a Laravel 12 application built with Filament 4 beta, following a modular plugin-based architecture. The core application is kept minimal, with all features implemented as separate plugins.
 
+## Filament v4.x Compliance
+
+**CRITICAL**: All plugins and development MUST follow Filament v4.x standards:
+
+- **Official Guidelines**: https://filamentphp.com/docs/4.x/introduction/overview
+- **CRUD Operations**: All plugin CRUD actions MUST be handled in the admin panel at `/admin/{plugin}` unless specifically documented otherwise
+- **Theme Consistency**: Use Filament's default theme and styling system
+- **Component Standards**: Utilize Filament's unified Schema components for forms, tables, and widgets
+- **Panel Integration**: Properly integrate with Filament's panel architecture
+
 ## Current Progress
 
 ### ✅ Completed Tasks
@@ -68,11 +78,12 @@ The project now has a complete foundation with:
 ## Documentation Structure
 
 - [01_installation_setup.md](01_installation_setup.md) - Initial setup and installation guide
-- [02_plugin_architecture.md](02_plugin_architecture.md) - Plugin-based architecture explanation
-- [03_creating_plugins.md](03_creating_plugins.md) - Guide for creating new plugins
+- [02_plugin_architecture.md](02_plugin_architecture.md) - Plugin-based architecture explanation with Filament v4.x compliance
+- [03_creating_plugins.md](03_creating_plugins.md) - Guide for creating new plugins following Filament v4.x standards
 - [04_deployment_guide.md](04_deployment_guide.md) - Production deployment instructions
 - [05_troubleshooting.md](05_troubleshooting.md) - Common issues and solutions
 - [06_authentication_setup.md](06_authentication_setup.md) - Authentication and authorization system
+- [07_screenshot_testing.md](07_screenshot_testing.md) - Laravel Dusk screenshot testing guide
 
 ## Key Technologies
 

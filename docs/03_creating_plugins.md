@@ -8,6 +8,16 @@ date: 2025-11-06
 
 This guide explains how to create new plugins for your Filament 4 application using the established patterns.
 
+## Filament v4.x Requirements
+
+**CRITICAL**: All plugins MUST comply with Filament v4.x standards:
+
+- **Follow Official Guidelines**: Adhere to https://filamentphp.com/docs/4.x/introduction/overview
+- **CRUD Actions**: All plugin CRUD operations MUST be handled in the admin panel at `/admin/{plugin}` unless specifically documented otherwise
+- **Theme Consistency**: Use Filament's default theme and styling components
+- **Schema Components**: Utilize Filament's unified Schema system for forms, tables, and widgets
+- **Panel Integration**: Properly integrate with Filament's panel system
+
 ## Quick Start
 
 ```bash
@@ -373,7 +383,15 @@ public function configurePackage(Package $package): void
 
 ## Best Practices
 
-### 1. Naming Conventions
+### 1. Filament v4.x Compliance
+
+- **Documentation Reference**: Always consult https://filamentphp.com/docs/4.x/introduction/overview
+- **Admin Panel Routes**: Use `/admin/{plugin}` structure for all CRUD operations
+- **Component Standards**: Follow Filament's component patterns and naming
+- **Theme Integration**: Maintain consistency with Filament's styling system
+- **Resource Organization**: Use Filament's resource discovery patterns
+
+### 2. Naming Conventions
 
 - Plugin class: `BlogPlugin`
 - Service provider: `BlogPluginServiceProvider`
