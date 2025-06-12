@@ -54,39 +54,13 @@ class NavigationService
             return $a['order'] <=> $b['order'];
         });
 
-        // Add "Home" navigation item first (gets special Filament treatment) - points to pages index
+        // Create navigation items for all pages
         $navigationItems = [];
-        $navigationItems[] = NavigationItem::make('Home')
-            ->url(url('/pages'))
-            ->icon('heroicon-o-document-duplicate')
-            ->isActiveWhen(fn () => request()->is('pages') && ! request()->route()->parameter('slug'));
 
-        // Find the home page and add it second as "Pages" with home icon
-        $homePageIndex = null;
-        foreach ($pages as $index => $page) {
-            if ($page['slug'] === 'home') {
-                $homePageIndex = $index;
-                break;
-            }
-        }
-
-        if ($homePageIndex !== null) {
-            $homePage = $pages[$homePageIndex];
-            $navigationItems[] = NavigationItem::make('Pages')
-                ->url(url('/pages/'.$homePage['slug']))
-                ->icon('heroicon-o-home')
-                ->isActiveWhen(fn () => request()->is('pages/'.$homePage['slug']) ||
-                    (request()->route() && request()->route()->parameter('slug') === $homePage['slug'])
-                );
-            // Remove home page from the regular pages array
-            unset($pages[$homePageIndex]);
-        }
-
-        // Convert remaining pages to NavigationItem objects
         foreach ($pages as $page) {
             $navigationItems[] = NavigationItem::make($page['title'])
-                ->url(url('/pages/'.$page['slug']))
                 ->icon($page['icon'])
+                ->url(url('/pages/'.$page['slug']))
                 ->isActiveWhen(fn () => request()->is('pages/'.$page['slug']) ||
                     (request()->route() && request()->route()->parameter('slug') === $page['slug'])
                 );
@@ -100,7 +74,7 @@ class NavigationService
         return [
             NavigationGroup::make('Pages')
                 ->items($this->getNavigationItems())
-                ->icon('heroicon-o-document-text')
+                ->icon('heroicon-o-document-duplicate')
                 ->collapsible(false),
         ];
     }
