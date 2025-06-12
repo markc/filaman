@@ -1,5 +1,5 @@
 ---
-title: Welcome to FilaMan
+title: Home
 slug: home
 description: FilaMan is a modern Filament v4.x plugin manager built with Laravel 12, providing a comprehensive plugin architecture for Filament applications.
 order: 1
@@ -7,6 +7,7 @@ published: true
 author: FilaMan Team
 date: 2025-06-11
 tags: welcome, introduction, filament, laravel
+icon: heroicon-o-home
 ---
 
 # Welcome to FilaMan! 🎉

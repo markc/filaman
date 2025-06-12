@@ -1,15 +1,16 @@
 ---
-title: Our Services
+title: Services
 slug: services
 description: Comprehensive FilaMan services including plugin development, consulting, support, and custom solutions for Laravel and Filament applications.
 category: Company
-order: 2
+order: 4
 published: true
 author: FilaMan Team
 date: 2025-06-12
 tags: services, consulting, development, support
 seo_title: FilaMan Services - Plugin Development & Consulting
 seo_description: Professional FilaMan services including plugin development, consulting, support, and custom Laravel/Filament solutions. Enterprise-ready.
+icon: heroicon-o-briefcase
 ---
 
 # Our Services

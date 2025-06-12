@@ -1,5 +1,5 @@
 ---
-title: Contact Us
+title: Contact
 slug: contact
 description: Get in touch with the FilaMan team for support, questions, or collaboration opportunities.
 category: Company
@@ -10,6 +10,7 @@ date: 2025-06-12
 tags: contact, support, team
 seo_title: Contact FilaMan Team - Support & Inquiries
 seo_description: Contact the FilaMan team for support, questions, or collaboration. Multiple ways to reach us including GitHub, email, and community channels.
+icon: heroicon-o-envelope
 ---
 
 # Contact Us
