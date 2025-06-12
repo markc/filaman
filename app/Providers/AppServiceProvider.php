@@ -31,18 +31,9 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function autoDiscoverPlugins(): void
     {
-        // Only run if database is available and we're not in a console command that doesn't need it
-        if (! app()->runningInConsole() || $this->app->runningUnitTests()) {
+        // Only run during web requests, not console commands or tests
+        if (app()->runningInConsole() || $this->app->runningUnitTests()) {
             return;
-        }
-
-        // Skip during key generation, migrations, and other setup commands
-        if (app()->runningInConsole()) {
-            $command = $_SERVER['argv'][1] ?? '';
-            $skipCommands = ['key:generate', 'migrate', 'migrate:install', 'config:cache', 'route:cache', 'view:cache'];
-            if (in_array($command, $skipCommands)) {
-                return;
-            }
         }
 
         // Skip if database file doesn't exist
