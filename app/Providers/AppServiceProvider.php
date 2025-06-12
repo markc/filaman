@@ -31,13 +31,33 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function autoDiscoverPlugins(): void
     {
-        // Only run if database is available
+        // Only run if database is available and we're not in a console command that doesn't need it
         if (! app()->runningInConsole() || $this->app->runningUnitTests()) {
             return;
         }
 
-        // Skip if plugins table doesn't exist
-        if (! Schema::hasTable('plugins')) {
+        // Skip during key generation, migrations, and other setup commands
+        if (app()->runningInConsole()) {
+            $command = $_SERVER['argv'][1] ?? '';
+            $skipCommands = ['key:generate', 'migrate', 'migrate:install', 'config:cache', 'route:cache', 'view:cache'];
+            if (in_array($command, $skipCommands)) {
+                return;
+            }
+        }
+
+        // Skip if database file doesn't exist
+        $dbPath = database_path('database.sqlite');
+        if (! file_exists($dbPath)) {
+            return;
+        }
+
+        try {
+            // Skip if plugins table doesn't exist
+            if (! Schema::hasTable('plugins')) {
+                return;
+            }
+        } catch (\Exception $e) {
+            // Database connection failed, skip auto-discovery
             return;
         }
 
