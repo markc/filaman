@@ -15,6 +15,12 @@ DO NOT use information from:
 
 The Filament 4 beta has significant architectural changes from v3, and using outdated information will lead to errors.
 
+## Development Memories
+
+- Always use the latest filament v4 techniques and features
+- http://localhost:8000 is already running
+- don't ask to use curl when viewing http://localhost:8000 pages
+
 ## Development Commands
 
 ### Backend Development
@@ -281,3 +287,4 @@ git cleanup                # Clean up old branches (weekly)
 3. **For UI consistency**: Always use Filament's Schema components
 4. **For testing**: Write tests for both Laravel and Filament components
 5. **For deployment**: Ensure all plugins are properly registered in panel providers
+```

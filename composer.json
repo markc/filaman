@@ -1,17 +1,26 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
     "name": "markc/filaman",
-    "type": "project", 
+    "type": "project",
     "description": "FilaMan - A modern Filament v4.x plugin manager for Laravel applications.",
-    "keywords": ["laravel", "filament", "plugin-manager", "filament-v4"],
+    "keywords": [
+        "laravel",
+        "filament",
+        "plugin-manager",
+        "filament-v4"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.3",
-        "filament/filament": "^4.0",
-        "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10.1",
         "filaman/admin": "dev-main",
-        "filaman/pages": "dev-main"
+        "filaman/pages": "dev-main",
+        "filament/actions": "^4.0@beta",
+        "filament/filament": "^4.0",
+        "filament/forms": "^4.0@beta",
+        "filament/notifications": "^4.0@beta",
+        "filament/tables": "^4.0@beta",
+        "laravel/framework": "^12.0",
+        "laravel/tinker": "^2.10.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -110,12 +119,23 @@
         {
             "type": "path",
             "url": "plugins/admin",
-            "options": {"symlink": true}
+            "options": {
+                "symlink": true
+            }
         },
         {
-            "type": "path", 
+            "type": "path",
             "url": "plugins/pages",
-            "options": {"symlink": true}
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/admin",
+            "options": {
+                "symlink": true
+            }
         }
     ]
 }

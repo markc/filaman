@@ -4,6 +4,7 @@ namespace FilaMan\Admin\Providers;
 
 use App\Http\Middleware\LocalAutoLogin;
 use FilaMan\Admin\AdminPlugin;
+use FilaMan\Pages\PagesPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -34,7 +35,9 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->profile()
             ->brandName(config('filaman-admin.brand_name', 'FilaMan Admin'))
-            ->plugin(AdminPlugin::make());
+            ->viteTheme('resources/css/filament/admin/theme.css')
+            ->plugin(AdminPlugin::make())
+            ->plugin(PagesPlugin::make());
 
         // Only require login in non-local environments (but always require in testing)
         if (! app()->environment('local') || app()->environment('testing')) {

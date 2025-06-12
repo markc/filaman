@@ -18,8 +18,8 @@ class FilamentScreenshotTest extends DuskTestCase
 
             // Take screenshot of dashboard
             $browser->visit('/admin')
-                    ->waitFor('.fi-topbar', 10) // Wait for Filament topbar to load
-                    ->screenshot('filament-dashboard');
+                ->waitFor('.fi-topbar', 10) // Wait for Filament topbar to load
+                ->screenshot('filament-dashboard');
 
             $this->assertTrue(true); // Test passes if no exceptions thrown
         });
@@ -33,8 +33,8 @@ class FilamentScreenshotTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             // Visit homepage
             $browser->visit('/')
-                    ->waitFor('body', 5)
-                    ->screenshot('homepage-full-page');
+                ->waitFor('body', 5)
+                ->screenshot('homepage-full-page');
 
             $this->assertTrue(true);
         });
@@ -48,18 +48,18 @@ class FilamentScreenshotTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             // Desktop view
             $browser->resize(1920, 1080)
-                    ->visit('/')
-                    ->screenshot('homepage-desktop');
+                ->visit('/')
+                ->screenshot('homepage-desktop');
 
             // Tablet view
             $browser->resize(768, 1024)
-                    ->visit('/')
-                    ->screenshot('homepage-tablet');
+                ->visit('/')
+                ->screenshot('homepage-tablet');
 
             // Mobile view
             $browser->resize(375, 667)
-                    ->visit('/')
-                    ->screenshot('homepage-mobile');
+                ->visit('/')
+                ->screenshot('homepage-mobile');
 
             $this->assertTrue(true);
         });
@@ -71,11 +71,11 @@ class FilamentScreenshotTest extends DuskTestCase
     public function test_can_take_custom_screenshots(): void
     {
         $timestamp = date('Y-m-d-H-i-s');
-        
+
         $this->browse(function (Browser $browser) use ($timestamp) {
             $browser->visit('/')
-                    ->waitFor('body', 5)
-                    ->screenshot("custom-homepage-{$timestamp}");
+                ->waitFor('body', 5)
+                ->screenshot("custom-homepage-{$timestamp}");
 
             $this->assertTrue(true);
         });
@@ -93,14 +93,14 @@ class FilamentScreenshotTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-                    ->screenshot('firefox-homepage');
+                ->screenshot('firefox-homepage');
 
             // Test Firefox with admin panel
             $this->loginAsFilamentAdmin($browser);
-            
+
             $browser->visit('/admin')
-                    ->waitForText('Dashboard')
-                    ->screenshot('firefox-admin-dashboard');
+                ->waitForText('Dashboard')
+                ->screenshot('firefox-admin-dashboard');
 
             $this->assertTrue(true);
         });

@@ -17,7 +17,7 @@ class PagesServiceProvider extends PackageServiceProvider
             ->name('filaman-pages')
             ->hasConfigFile('filaman-pages') // For publishing plugin-specific config
             ->hasViews('filaman-pages') // Publishes views from `resources/views`
-            ->hasRoute('web'); // Loads routes from `routes/web.php`
+            ->hasMigrations(['create_pages_table']);
     }
 
     public function packageRegistered(): void
@@ -26,14 +26,36 @@ class PagesServiceProvider extends PackageServiceProvider
         $this->app->singleton(PagesPlugin::class, function () {
             return new PagesPlugin;
         });
+
+        // Bind services
+        $this->app->singleton(\FilaMan\Pages\Services\PageCacheService::class);
+        $this->app->singleton(\FilaMan\Pages\Services\GfmMarkdownRenderer::class);
     }
 
     public function packageBooted(): void
     {
-        // Load helper functions
-        require_once __DIR__.'/helpers.php';
-
-        // Register the view namespace manually to ensure it's available
+        // Register the view namespace for remaining admin views
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'filaman-pages');
+
+        // Register migrations
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+
+        // Register web routes (now empty - pages handled by Filament panel)
+        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+
+        // Register admin routes (now empty - handled by Filament resources)
+        $this->loadRoutesFrom(__DIR__.'/../routes/admin.php');
+
+        // Register API routes
+        $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
+
+        // Register commands
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                \FilaMan\Pages\Commands\MakePageCommand::class,
+                \FilaMan\Pages\Commands\ListPagesCommand::class,
+                \FilaMan\Pages\Commands\CachePagesCommand::class,
+            ]);
+        }
     }
 }

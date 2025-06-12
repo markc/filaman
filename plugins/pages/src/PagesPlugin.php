@@ -19,23 +19,21 @@ class PagesPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        // The pages themselves are unauthenticated, so they won't be
-        // registered directly within the Filament panel.
-        // This plugin primarily serves frontend functionality outside the panel.
-        // However, we ensure its service provider and routes are loaded.
-
-        // Future: Could register admin resources for managing pages here
-        // $panel->resources([
-        //     Resources\PageResource::class,
-        // ]);
+        // Register based on panel ID
+        if ($panel->getId() === 'admin') {
+            // Register the page management resource within the admin panel
+            $panel->resources([
+                \FilaMan\Pages\Filament\Resources\PageResource::class,
+            ]);
+        } elseif ($panel->getId() === 'pages') {
+            // Public pages panel - no resources needed, just pages
+            // Pages are registered in PagesPanelProvider
+        }
     }
 
     public function boot(Panel $panel): void
     {
-        // Any runtime initialization specific to the plugin
-        // (e.g., event listeners, view composers, if needed)
-
-        // Register view namespace for the plugin
-        view()->addNamespace('filaman-pages', __DIR__.'/../resources/views');
+        // Runtime initialization for standard Filament v4 admin panel integration
+        // All page management is handled through the admin panel resource
     }
 }

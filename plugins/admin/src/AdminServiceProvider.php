@@ -29,6 +29,9 @@ class AdminServiceProvider extends PackageServiceProvider
         // Load views
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'filaman-admin');
 
+        // Load migrations
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+
         // Register the admin panel if enabled
         if (config('filaman-admin.enabled', true)) {
             $this->registerAdminPanel();

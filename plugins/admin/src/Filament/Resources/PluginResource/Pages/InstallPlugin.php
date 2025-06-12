@@ -7,6 +7,7 @@ use FilaMan\Admin\Services\PluginManager;
 use Filament\Forms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,7 +21,7 @@ class InstallPlugin extends CreateRecord
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Available Plugins')
+                Section::make('Available Plugins')
                     ->description('Select a plugin to install from the available plugins')
                     ->schema([
                         Forms\Components\Select::make('plugin_name')
@@ -43,7 +44,7 @@ class InstallPlugin extends CreateRecord
                             ->helperText('Select a plugin from the discovered plugins'),
                     ]),
 
-                Forms\Components\Section::make('Installation Options')
+                Section::make('Installation Options')
                     ->schema([
                         Forms\Components\Toggle::make('enable_after_install')
                             ->label('Enable after installation')
