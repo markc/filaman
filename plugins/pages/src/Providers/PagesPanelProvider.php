@@ -34,7 +34,7 @@ class PagesPanelProvider extends PanelProvider
                 \FilaMan\Pages\Filament\Pages\PagesList::class,
                 \FilaMan\Pages\Filament\Pages\DynamicPage::class,
             ])
-            ->navigationGroups($navigationService->getNavigationGroups())
+            ->navigationItems($navigationService->getNavigationItems())
             ->widgets([
                 // No widgets needed for pages panel
             ])
