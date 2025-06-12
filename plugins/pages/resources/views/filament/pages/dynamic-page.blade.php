@@ -270,17 +270,19 @@
     @endif
 @endpush
 
-<x-filament-panels::page>
+<div class="fi-main-content-ctn">
+    <div class="fi-main-content">
+        <div class="fi-main-content-inner">
     {{-- Breadcrumbs --}}
-    <div class="mb-4">
+    <div class="mt-4 mb-4">
         <nav class="flex" aria-label="Breadcrumb">
             <ol class="inline-flex items-center space-x-1 md:space-x-3">
                 <li class="inline-flex items-center">
                     <a href="/pages" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-primary-600">
                         <svg class="w-3 h-3 mr-2.5" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"/>
+                            <path d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6z"/>
                         </svg>
-                        Home
+                        Pages
                     </a>
                 </li>
                 @if(isset($this->frontMatter['category']) && $this->frontMatter['category'] !== 'Main')
@@ -713,4 +715,6 @@
             }
         });
     </script>
-</x-filament-panels::page>
+        </div>
+    </div>
+</div>

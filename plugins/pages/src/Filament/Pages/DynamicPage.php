@@ -63,7 +63,7 @@ class DynamicPage extends Page
 
     public function getTitle(): string
     {
-        return $this->pageTitle;
+        return ''; // Hide page title
     }
 
     public function getSeoTitle(): string
@@ -109,5 +109,30 @@ class DynamicPage extends Page
     public function getFeaturedImage(): ?string
     {
         return $this->frontMatter['featured_image'] ?? null;
+    }
+
+    public function hasHeader(): bool
+    {
+        return false;
+    }
+
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
+    public function hasHeading(): bool
+    {
+        return false;
+    }
+
+    public function getHeading(): string
+    {
+        return '';
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return '';
     }
 }
