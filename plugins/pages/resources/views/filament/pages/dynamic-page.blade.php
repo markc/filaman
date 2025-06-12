@@ -337,6 +337,10 @@
                         color: #111827;
                     }
                     
+                    .markdown-content h1 {
+                        margin-top: 0;
+                    }
+                    
                     .dark .markdown-content h1,
                     .dark .markdown-content h2,
                     .dark .markdown-content h3,
