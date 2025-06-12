@@ -7,11 +7,15 @@ use Filament\Pages\Page;
 use Illuminate\Support\Facades\File;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 
-class DynamicPage extends Page
+class HomePage extends Page
 {
+    protected static ?string $slug = '/';
+
+    protected static bool $shouldRegisterNavigation = false;
+
     protected string $view = 'filaman-pages::filament.pages.dynamic-page';
 
-    public string $pageSlug = '';
+    public string $pageSlug = 'home';
 
     public string $pageTitle = '';
 
@@ -19,14 +23,9 @@ class DynamicPage extends Page
 
     public string $content = '';
 
-    protected static bool $shouldRegisterNavigation = false;
-
-    protected static ?string $slug = '{slug}';
-
-    public function mount(string $slug): void
+    public function mount(): void
     {
-        $this->pageSlug = $slug;
-        $this->loadMarkdownContent($slug);
+        $this->loadMarkdownContent('home');
     }
 
     protected function loadMarkdownContent(string $slug): void
@@ -52,12 +51,14 @@ class DynamicPage extends Page
 
     public function getViewData(): array
     {
-        // Use GfmMarkdownRenderer service to render markdown content
-        $markdownService = resolve(\FilaMan\Pages\Services\GfmMarkdownRenderer::class);
+        $markdownService = resolve(GfmMarkdownRenderer::class);
         $htmlOutput = $markdownService->renderWithClasses($this->content);
 
         return [
             'htmlContent' => $htmlOutput,
+            'frontMatter' => $this->frontMatter,
+            'pageTitle' => $this->pageTitle,
+            'pageSlug' => $this->pageSlug,
         ];
     }
 
@@ -79,7 +80,7 @@ class DynamicPage extends Page
     public function getMetaTags(): array
     {
         $baseUrl = config('app.url');
-        $currentUrl = $baseUrl.'/pages/'.$this->pageSlug;
+        $currentUrl = $baseUrl.'/pages/';
 
         return [
             'title' => $this->getSeoTitle(),

@@ -31,7 +31,7 @@ class PagesPanelProvider extends PanelProvider
             ])
             ->sidebarCollapsibleOnDesktop() // Allow sidebar to be collapsed
             ->pages([
-                \FilaMan\Pages\Filament\Pages\PagesList::class,
+                \FilaMan\Pages\Filament\Pages\HomePage::class,
                 \FilaMan\Pages\Filament\Pages\DynamicPage::class,
             ])
             ->navigationItems($navigationService->getNavigationItems())
