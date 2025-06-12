@@ -43,6 +43,17 @@ Each plugin is responsible for:
 3. **Panel Registration**: Plugins modify panel configuration during registration
 4. **Resource Discovery**: Automatic discovery of resources within plugin namespaces
 
+### Filament v4.x Compliance Requirements
+
+**CRITICAL**: All plugins MUST follow Filament v4.x guidelines:
+
+- **Code Standards**: Follow Filament v4.x code and theme style guidelines available at https://filamentphp.com/docs/4.x/introduction/overview
+- **CRUD Actions**: All plugin CRUD operations MUST be handled in the admin panel at `/admin/{plugin}` unless specifically documented otherwise
+- **Theme Consistency**: Use Filament's default theme and styling system
+- **Component Usage**: Utilize Filament's Schema components for forms, tables, and widgets
+- **Navigation**: Integrate with Filament's navigation system properly
+- **Authorization**: Use Filament's built-in authorization patterns
+
 ### Plugin Lifecycle
 
 ```
@@ -171,7 +182,15 @@ class MyPlugin implements Plugin, DataProviderInterface {
 
 ## Best Practices
 
-### 1. Namespace Organization
+### 1. Filament v4.x Integration
+
+- **Follow Official Guidelines**: Strictly adhere to https://filamentphp.com/docs/4.x/introduction/overview
+- **Admin Panel Structure**: All CRUD operations go through `/admin/{plugin}` routes
+- **Resource Organization**: Use Filament's resource discovery patterns
+- **Theme Compliance**: Maintain consistency with Filament's default theme
+- **Component Usage**: Prefer Filament components over custom implementations
+
+### 2. Namespace Organization
 
 - Use vendor namespaces: `FilaMan\PluginName`
 - Follow PSR-4 autoloading standards
