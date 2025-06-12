@@ -58,7 +58,7 @@ class NavigationService
         $navigationItems = [];
         foreach ($pages as $page) {
             $navigationItems[] = NavigationItem::make($page['title'])
-                ->url('/pages/'.$page['slug'])
+                ->url(url('/pages/'.$page['slug']))
                 ->icon($page['icon'])
                 ->isActiveWhen(fn () => request()->is('pages/'.$page['slug']) ||
                     (request()->route() && request()->route()->parameter('slug') === $page['slug'])
