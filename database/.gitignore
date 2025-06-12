@@ -1,1 +1,3 @@
-*.sqlite*
+# Allow the main database file for CI/deployment
+# *.sqlite*
+!database.sqlite
