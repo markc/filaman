@@ -14,14 +14,14 @@ test('the admin panel is accessible', function () {
     ]);
 
     $response = $this->actingAs($user)->get('/admin');
-    
+
     // Should get successful response from admin panel
     $response->assertStatus(200);
 });
 
 test('the pages panel is accessible', function () {
     $response = $this->get('/pages');
-    
+
     // Pages panel should be publicly accessible
     $response->assertStatus(200);
 });

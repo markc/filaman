@@ -116,9 +116,9 @@ Benefits of this approach:
 
 ## Content Processing Pipeline
 
-### Markdown Processing Flow
+### GitHub Flavored Markdown Processing Flow
 
-The content processing follows a multi-stage pipeline:
+The content processing follows a comprehensive multi-stage pipeline optimized for GitHub Flavored Markdown:
 
 ```
 1. File Discovery
@@ -132,11 +132,16 @@ The content processing follows a multi-stage pipeline:
    ├── Extract Markdown body
    └── Validate structure
 
-3. Content Processing
-   ├── Process Markdown to HTML
-   ├── Apply syntax highlighting
-   ├── Process internal links
-   └── Generate table of contents
+3. GFM Content Processing (GfmMarkdownRenderer)
+   ├── Process GitHub Flavored Markdown to HTML
+   ├── Apply syntax highlighting with Prism.js
+   ├── Render tables with responsive styling
+   ├── Process task lists and checkboxes
+   ├── Handle collapsible sections
+   ├── Generate proper heading hierarchy
+   ├── Process code blocks with language detection
+   ├── Apply custom CSS classes for styling
+   └── Sanitize output for security
 
 4. Metadata Extraction
    ├── Extract SEO metadata
@@ -146,9 +151,103 @@ The content processing follows a multi-stage pipeline:
 
 5. Template Rendering
    ├── Select appropriate template
-   ├── Inject processed content
-   ├── Apply layout and styling
-   └── Generate final HTML
+   ├── Inject processed content with GFM styling
+   ├── Apply Filament v4.x admin layout
+   └── Generate final HTML with full panel integration
+```
+
+### GfmMarkdownRenderer Service Implementation
+
+The core of the markdown processing is handled by the `GfmMarkdownRenderer` service:
+
+```php
+<?php
+
+namespace FilaMan\Pages\Services;
+
+use League\CommonMark\CommonMarkConverter;
+use League\CommonMark\Environment\Environment;
+use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
+use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
+use League\CommonMark\Extension\Table\TableExtension;
+use League\CommonMark\Extension\TaskList\TaskListExtension;
+
+class GfmMarkdownRenderer
+{
+    private CommonMarkConverter $converter;
+    
+    public function __construct()
+    {
+        $environment = new Environment([
+            'html_input' => 'strip',
+            'allow_unsafe_links' => false,
+            'max_nesting_level' => 10,
+        ]);
+        
+        $environment->addExtension(new CommonMarkCoreExtension());
+        $environment->addExtension(new GithubFlavoredMarkdownExtension());
+        $environment->addExtension(new TableExtension());
+        $environment->addExtension(new TaskListExtension());
+        
+        $this->converter = new CommonMarkConverter([], $environment);
+    }
+    
+    public function renderWithClasses(string $markdown): string
+    {
+        $html = $this->converter->convert($markdown)->getContent();
+        return $this->applyCustomStyling($html);
+    }
+    
+    private function applyCustomStyling(string $html): string
+    {
+        // Apply comprehensive GFM styling classes
+        $patterns = [
+            // Headings with proper hierarchy
+            '/<h1([^>]*)>/' => '<h1$1 class="text-4xl font-bold text-gray-900 dark:text-white mb-6 mt-8 first:mt-0 border-b border-gray-200 dark:border-gray-700 pb-2">',
+            '/<h2([^>]*)>/' => '<h2$1 class="text-3xl font-semibold text-gray-900 dark:text-white mb-5 mt-7 border-b border-gray-200 dark:border-gray-700 pb-2">',
+            '/<h3([^>]*)>/' => '<h3$1 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4 mt-6">',
+            '/<h4([^>]*)>/' => '<h4$1 class="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-5">',
+            '/<h5([^>]*)>/' => '<h5$1 class="text-lg font-semibold text-gray-900 dark:text-white mb-3 mt-4">',
+            '/<h6([^>]*)>/' => '<h6$1 class="text-base font-semibold text-gray-900 dark:text-white mb-2 mt-3">',
+            
+            // Paragraphs and text
+            '/<p([^>]*)>/' => '<p$1 class="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">',
+            
+            // Lists with proper indentation
+            '/<ul([^>]*)>/' => '<ul$1 class="list-disc list-outside ml-6 mb-4 space-y-2 text-gray-700 dark:text-gray-300">',
+            '/<ol([^>]*)>/' => '<ol$1 class="list-decimal list-outside ml-6 mb-4 space-y-2 text-gray-700 dark:text-gray-300">',
+            '/<li([^>]*)>/' => '<li$1 class="leading-relaxed">',
+            
+            // Code blocks and inline code
+            '/<pre><code([^>]*)>/' => '<pre class="bg-gray-100 dark:bg-gray-800 rounded-lg p-4 mb-4 overflow-x-auto border border-gray-200 dark:border-gray-700"><code$1 class="text-sm font-mono text-gray-800 dark:text-gray-200">',
+            '/<code([^>]*class="[^"]*language-([^"]*)[^>]*)>/' => '<code$1 data-language="$2">',
+            '/<code(?![^>]*class)([^>]*)>/' => '<code$1 class="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 px-2 py-1 rounded text-sm font-mono">',
+            
+            // Tables with responsive design
+            '/<table([^>]*)>/' => '<div class="overflow-x-auto mb-6"><table$1 class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 border border-gray-200 dark:border-gray-700 rounded-lg">',
+            '/<\/table>/' => '</table></div>',
+            '/<thead([^>]*)>/' => '<thead$1 class="bg-gray-50 dark:bg-gray-800">',
+            '/<th([^>]*)>/' => '<th$1 class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700">',
+            '/<tbody([^>]*)>/' => '<tbody$1 class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">',
+            '/<td([^>]*)>/' => '<td$1 class="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700">',
+            
+            // Task lists
+            '/<li([^>]*class="[^"]*task-list-item[^>]*)>/' => '<li$1 class="flex items-start space-x-2 leading-relaxed">',
+            '/<input([^>]*type="checkbox"[^>]*disabled[^>]*)>/' => '<input$1 class="mt-1 h-4 w-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500">',
+            
+            // Blockquotes
+            '/<blockquote([^>]*)>/' => '<blockquote$1 class="border-l-4 border-gray-300 dark:border-gray-600 pl-4 py-2 mb-4 italic text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 rounded-r">',
+            
+            // Links
+            '/<a([^>]*)>/' => '<a$1 class="text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-200 underline transition-colors duration-200">',
+            
+            // Horizontal rules
+            '/<hr([^>]*)>/' => '<hr$1 class="my-8 border-t border-gray-300 dark:border-gray-600">',
+        ];
+        
+        return preg_replace(array_keys($patterns), array_values($patterns), $html);
+    }
+}
 ```
 
 ### File Discovery Implementation
@@ -159,7 +258,7 @@ The content processing follows a multi-stage pipeline:
 public function discoverPages(): array
 {
     $pages = [];
-    $pagesDirectory = filaman_plugin_path('pages', 'resources/views/pages');
+    $pagesDirectory = base_path('plugins/pages/resources/views/pages');
 
     if (!File::isDirectory($pagesDirectory)) {
         return $pages;
@@ -224,55 +323,134 @@ Route::prefix('pages')->name('filaman.pages.')->group(function () {
 });
 ```
 
-### Controller Implementation
+### Filament Panel Integration
 
-The controller handles page rendering with comprehensive error handling:
+The Pages Plugin now uses a dedicated Filament panel for public pages with full admin layout:
 
 ```php
 <?php
 
-namespace FilaMan\PagesPlugin\Http\Controllers;
+namespace FilaMan\Pages\Providers;
 
-class PageController extends Controller
+use Filament\Http\Middleware\Authenticate;
+use Filament\Http\Middleware\DisableBladeIconComponents;
+use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Panel;
+use Filament\PanelProvider;
+use Filament\Support\Colors\Color;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Illuminate\Cookie\Middleware\EncryptCookies;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Session\Middleware\AuthenticateSession;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
+
+class PagesPanelProvider extends PanelProvider
 {
-    public function show(Request $request, $slug = 'home')
+    public function panel(Panel $panel): Panel
     {
-        try {
-            $filePath = $this->getPageFilePath($slug);
-            
-            if (!$this->pageExists($filePath)) {
-                return $this->handlePageNotFound($slug);
-            }
-
-            $pageData = $this->parsePageFile($filePath);
-            
-            if (!$this->isPagePublished($pageData)) {
-                return $this->handleUnpublishedPage($slug);
-            }
-
-            return $this->renderPage($pageData, $slug);
-
-        } catch (Exception $e) {
-            return $this->handleRenderingError($e, $slug);
-        }
-    }
-
-    private function renderPage(array $pageData, string $slug): Response
-    {
-        $htmlContent = app(MarkdownRenderer::class)->toHtml($pageData['content']);
-
-        $viewData = [
-            'title' => $pageData['title'],
-            'description' => $pageData['description'],
-            'content' => $htmlContent,
-            'slug' => $slug,
-            'frontMatter' => $pageData['metadata'],
-            'pages' => filaman_get_pages(),
-        ];
-
-        return view('filaman-pages::page', $viewData);
+        return $panel
+            ->id('pages')
+            ->path('pages')
+            ->colors([
+                'primary' => Color::Blue,
+            ])
+            ->discoverPages(in: app_path('Filament/Pages/Pages'), for: 'App\\Filament\\Pages\\Pages')
+            ->pages([
+                // Pages are discovered dynamically
+            ])
+            ->middleware([
+                EncryptCookies::class,
+                AddQueuedCookiesToResponse::class,
+                StartSession::class,
+                AuthenticateSession::class,
+                ShareErrorsFromSession::class,
+                VerifyCsrfToken::class,
+                SubstituteBindings::class,
+                DisableBladeIconComponents::class,
+                DispatchServingFilamentEvent::class,
+            ])
+            ->authMiddleware([
+                // No authentication required for public pages
+            ])
+            ->viteTheme('resources/css/filament/admin/theme.css')
+            ->favicon(asset('favicon.ico'))
+            ->brandName('FilaMan')
+            ->brandLogo(asset('img/logo.svg'))
+            ->brandLogoHeight('2rem')
+            ->sidebarCollapsibleOnDesktop();
     }
 }
+```
+
+### Dynamic Page Class Implementation
+
+The `DynamicPage` class renders individual markdown pages within the Filament panel:
+
+```php
+<?php
+
+namespace FilaMan\Pages\Filament\Pages;
+
+use Filament\Pages\Page;
+use FilaMan\Pages\Services\GfmMarkdownRenderer;
+use Illuminate\Support\Facades\File;
+use Spatie\YamlFrontMatter\YamlFrontMatter;
+
+class DynamicPage extends Page
+{
+    protected static string $view = 'filaman-pages::filament.pages.dynamic-page';
+    
+    public string $slug;
+    public array $frontMatter = [];
+    public string $content = '';
+    public string $title = '';
+    public string $description = '';
+    
+    public function mount(string $slug = 'home'): void
+    {
+        $this->slug = $slug;
+        $this->loadPageContent();
+    }
+    
+    protected function loadPageContent(): void
+    {
+        $filePath = base_path("plugins/pages/resources/views/pages/{$this->slug}.md");
+        
+        if (!File::exists($filePath)) {
+            abort(404, "Page '{$this->slug}' not found.");
+        }
+        
+        $fileContent = File::get($filePath);
+        $document = YamlFrontMatter::parse($fileContent);
+        
+        $this->frontMatter = $document->matter();
+        $this->content = $document->body();
+        $this->title = $this->frontMatter['title'] ?? ucfirst(str_replace('-', ' ', $this->slug));
+        $this->description = $this->frontMatter['description'] ?? '';
+    }
+    
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+    
+    public function getViewData(): array
+    {
+        $markdownService = resolve(GfmMarkdownRenderer::class);
+        $htmlOutput = $markdownService->renderWithClasses($this->content);
+        
+        return [
+            'htmlContent' => $htmlOutput,
+            'title' => $this->title,
+            'description' => $this->description,
+            'slug' => $this->slug,
+            'frontMatter' => $this->frontMatter,
+        ];
+    }
+}
+```
 ```
 
 ## Template System

@@ -26,37 +26,50 @@ The plugin follows the FilaMan plugin architecture standards:
 ### Data Flow
 
 1. **Request**: User requests a page via `/pages/{slug}`
-2. **Routing**: Laravel routes to `PageController@show`
-3. **File Loading**: Controller loads corresponding `.md` file
+2. **Routing**: Filament panel routes to `DynamicPage` class
+3. **File Loading**: Page class loads corresponding `.md` file
 4. **Parsing**: YAML front matter and Markdown content are parsed
-5. **Rendering**: Content is rendered using Blade templates
-6. **Response**: HTML page is returned to the user
+5. **GFM Processing**: Content is processed using `GfmMarkdownRenderer` service
+6. **Rendering**: Content is rendered within full Filament admin panel layout
+7. **Response**: HTML page with Filament styling is returned to the user
 
 ### File Structure
 
 ```
-plugins/pages-plugin/
+plugins/pages/
 ├── src/                          # PHP source code
 │   ├── PagesPlugin.php          # Main plugin class
-│   ├── PagesPluginServiceProvider.php
-│   └── Http/Controllers/
+│   ├── PagesServiceProvider.php # Laravel service provider
+│   ├── Providers/               # Filament panel providers
+│   │   └── PagesPanelProvider.php
+│   ├── Filament/Pages/          # Filament page classes
+│   │   └── DynamicPage.php      # Dynamic markdown page renderer
+│   └── Services/                # Core services
+│       ├── GfmMarkdownRenderer.php  # GitHub Flavored Markdown processor
+│       └── PageCacheService.php     # Caching service
 ├── resources/                    # Templates and content
-│   ├── views/                   # Blade templates
-│   └── pages/                   # Markdown content files
+│   └── views/                   # Blade templates and markdown pages
+│       ├── filament/pages/      # Filament page templates
+│       └── pages/               # Markdown content files
 ├── routes/                       # Route definitions
-├── config/                       # Configuration files
+├── database/                     # Database migrations
 ├── tests/                        # Test suites
-└── docs/                        # Plugin documentation
+├── docs/                        # Plugin documentation
+└── plan/                        # Development planning documents
 ```
 
 ## Key Features
 
-### Markdown Processing
+### GitHub Flavored Markdown Processing
 
-- **GitHub Flavored Markdown**: Full GFM support including tables, task lists, code blocks
-- **YAML Front Matter**: Metadata support for titles, descriptions, ordering, etc.
-- **Syntax Highlighting**: Code blocks with language-specific highlighting
-- **Internal Linking**: Easy linking between pages using route helpers
+- **Complete GFM Support**: Full GitHub Flavored Markdown including tables, task lists, code blocks, strikethrough, autolinks
+- **YAML Front Matter**: Metadata support for titles, descriptions, ordering, publication status
+- **Syntax Highlighting**: Code blocks with Prism.js language-specific highlighting
+- **Responsive Tables**: Tables with horizontal scrolling and proper styling
+- **Task Lists**: Interactive checkboxes for todo items
+- **Collapsible Sections**: Support for `<details>` and `<summary>` elements
+- **Custom Styling**: Comprehensive CSS classes applied to all markdown elements
+- **Security**: Content sanitization to prevent XSS attacks
 
 ### Navigation System
 
@@ -74,10 +87,13 @@ plugins/pages-plugin/
 
 ### Developer Experience
 
+- **Filament Integration**: Full Filament v4.x admin panel layout with sidebar navigation
 - **Hot Reloading**: Changes are reflected immediately during development
-- **Template Inheritance**: Easy customization through template publishing
+- **Template Inheritance**: Easy customization through Filament page templates
 - **Configuration**: Extensive configuration options for customization
 - **Error Handling**: Graceful handling of missing pages and errors
+- **Auto-Discovery**: Plugins are automatically discovered and enabled
+- **Service Container**: Dependency injection for all services
 
 ## Integration Points
 
@@ -85,10 +101,12 @@ plugins/pages-plugin/
 
 The plugin integrates with Filament through:
 
-- **Plugin Interface**: Implements `Filament\Contracts\Plugin`
-- **Panel Registration**: Registers with Filament panels for lifecycle management
-- **View Namespace**: Uses Filament's view loading mechanisms
-- **Configuration**: Leverages Filament's configuration patterns
+- **Dedicated Panel**: Creates a separate `pages` panel with full admin layout
+- **Panel Provider**: `PagesPanelProvider` configures the panel with proper styling
+- **Dynamic Pages**: `DynamicPage` class handles individual markdown page rendering
+- **Service Integration**: `GfmMarkdownRenderer` service handles all markdown processing
+- **Admin Layout**: Uses identical layout to admin panel with sidebar and navigation
+- **Theme Integration**: Shares CSS theme with admin panel for consistent styling
 
 ### Laravel Integration
 
